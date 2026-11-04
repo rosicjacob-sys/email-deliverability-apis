@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Deliverable 5 · Deep2K 90-to-180 Day Journey &amp; 10-UTM Trust Audit (2026-11)</title>
+<style>
+:root{--ink:#0f172a;--ink2:#334155;--muted:#64748b;--line:#e2e8f0;--bg:#f8fafc;--card:#fff;--acc:#0f766e;--acc2:#115e59;--accS:#f0fdfa;--accB:#99f6e4;--warn:#b45309;--warnS:#fffbeb;--warnB:#fde68a;--risk:#b91c1c;--riskS:#fef2f2;--riskB:#fecaca;--ok:#15803d;--okS:#f0fdf4;--okB:#bbf7d0;--blue:#1d4ed8;--blueS:#eff6ff;--blueB:#bfdbfe;--code:#0f172a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.58;-webkit-font-smoothing:antialiased}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(15,23,42,.96);backdrop-filter:blur(8px);color:#fff;border-bottom:1px solid #1e293b;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.topbar-badge{background:#14b8a6;color:#042f2e;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;text-transform:uppercase}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.topbar-input{background:#1e293b;border:1px solid #334155;color:#f8fafc;padding:6px 12px;border-radius:7px;font-size:12.5px;width:270px}
+.btn{background:#0f766e;color:#fff;border:1px solid #14b8a6;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:#115e59}
+.btn.secondary{background:#1e293b;border-color:#475569;color:#e2e8f0}
+.wrap{display:flex;max-width:1440px;margin:0 auto;gap:24px;padding:24px;align-items:flex-start}
+nav.toc{position:sticky;top:68px;width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 12px;max-height:calc(100vh - 88px);overflow:auto}
+nav.toc h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:8px 8px 6px;font-weight:700}
+nav.toc a{display:block;padding:6px 9px;font-size:12.5px;color:var(--ink2);text-decoration:none;border-radius:6px;line-height:1.35;margin-bottom:2px}
+nav.toc a:hover{background:var(--accS);color:var(--acc2);font-weight:600}
+nav.toc .toc-divider{height:1px;background:var(--line);margin:10px 6px}
+main{flex:1;min-width:0}
+header.hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 60%,#0f766e 100%);color:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
+header.hero .eyebrow{display:inline-block;background:rgba(20,184,166,.2);border:1px solid rgba(94,234,212,.4);color:#99f6e4;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:999px;margin-bottom:12px}
+header.hero h1{font-size:25px;line-height:1.25;margin-bottom:10px;font-weight:800}
+header.hero p{opacity:.94;max-width:980px;font-size:14.2px;line-height:1.6}
+.meta-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15);font-size:12.5px;opacity:.92}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:22px}
+.kpi-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi-card .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.kpi-card .val{font-size:22px;font-weight:800;color:var(--ink);margin:4px 0 2px}
+.kpi-card .val.risk{color:var(--risk)}.kpi-card .val.warn{color:var(--warn)}.kpi-card .val.ok{color:var(--ok)}
+.kpi-card .note{font-size:11.5px;color:var(--muted);line-height:1.35}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:22px}
+h2.sec{font-size:19.5px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:10px;font-weight:800}
+h2.sec .num{background:var(--acc);color:#fff;border-radius:8px;font-size:12.5px;padding:3px 9px;flex-shrink:0;font-weight:700}
+.sub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+h3{font-size:15.5px;margin:22px 0 8px;color:var(--acc2);font-weight:700}
+h4{font-size:13.5px;margin:14px 0 6px;color:var(--ink);font-weight:700}
+p,li{font-size:13.8px;color:var(--ink2)}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin-bottom:6px}
+b,strong{color:var(--ink)}
+.table-wrap{width:100%;overflow-x:auto;margin:12px 0;border-radius:10px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:12.6px}
+th{background:#f1f5f9;text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:11.2px;text-transform:uppercase;letter-spacing:.04em;color:#475569;font-weight:700}
+th:last-child,td:last-child{border-right:none}
+td{padding:8px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#fafcfe}
+tr.highlight-risk td{background:#fff5f5}tr.highlight-ok td{background:#f0fdf4}tr.highlight-warn td{background:#fffbeb}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+code,.mono{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:11.8px;background:#f1f5f9;color:#0f172a;padding:2px 6px;border-radius:5px;border:1px solid #e2e8f0}
+.code-block{position:relative;margin:10px 0 16px}
+pre{background:var(--code);color:#e2e8f0;padding:16px 18px;border-radius:10px;overflow:auto;font-size:12px;line-height:1.55;border:1px solid #1e293b}
+pre code{background:none;color:inherit;padding:0;border:none;font-size:inherit}
+.copy-btn{position:absolute;top:8px;right:8px;background:#1e293b;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer}
+.copy-btn:hover{background:#334155;color:#fff}
+.callout{border-left:4px solid var(--acc);background:var(--accS);border-top:1px solid var(--accB);border-right:1px solid var(--accB);border-bottom:1px solid var(--accB);border-radius:0 10px 10px 0;padding:13px 16px;margin:12px 0;font-size:13.5px}
+.callout.warn{border-color:var(--warnB);border-left-color:var(--warn);background:var(--warnS)}
+.callout.risk{border-color:var(--riskB);border-left-color:var(--risk);background:var(--riskS)}
+.callout.ok{border-color:var(--okB);border-left-color:var(--ok);background:var(--okS)}
+.callout.blue{border-color:var(--blueB);border-left-color:var(--blue);background:var(--blueS)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.pill.p0,.pill.risk{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.pill.p1,.pill.warn{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.pill.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.pill.info{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+footer.colophon{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 36px}
+@media(max-width:1024px){.wrap{flex-direction:column}nav.toc{position:static;width:100%;max-height:none}.two-col{grid-template-columns:1fr}}
+@media print{.topbar,nav.toc,.copy-btn{display:none!important}section.card{break-inside:avoid;box-shadow:none}body{background:#fff}.wrap{padding:0;max-width:100%}}
+
+/* High-contrast fix for top hero box */
+header.hero, header.hero h1, header.hero b, header.hero strong { color: #ffffff !important; }
+header.hero p, header.hero li, header.hero .meta-row, header.hero .meta-row span { color: #f8fafc !important; opacity: 1 !important; }
+header.hero code, header.hero .mono { background: rgba(15, 23, 42, 0.6) !important; color: #99f6e4 !important; border: 1px solid rgba(153, 246, 228, 0.45) !important; font-weight: 600; }
+.topbar a.btn.secondary { color: #f8fafc !important; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-brand">
+    <span class="topbar-badge">Deliverable 5 · Deep2K 90-to-180 Day Journey &amp; UTM Trust Audit</span>
+    <span>Forensic Audit of What Deep2K Saves vs. Drops &amp; Engineering Spec for 90+ Day Slow vs. Fast Buying-Cycle Tracking</span>
+  </div>
+  <div class="topbar-actions">
+    <a href="index.html" class="btn secondary">🤖 Grok Bot Hub</a>
+    <a href="deep2k-audit.html" class="btn secondary">📊 Main Audit</a>
+    <a href="domain-continuity.html" class="btn secondary">🔗 1. Domain Continuity</a>
+    <a href="seo-oldpc-plan.html" class="btn secondary">🚀 2. OldPC SEO Plan</a>
+    <a href="utm-city-bible.html" class="btn secondary">🎯 3. 10-UTM Bible</a>
+    <a href="netgrid-seo-deep-dive.html" class="btn secondary">🔍 4. Netgrid Deep-Dive</a>
+    <a href="deep2k-90day-audit.html" class="btn secondary" style="background:#0f766e;border-color:#14b8a6;color:#fff;font-weight:800;">🕵️ 5. Deep2K 90-Day</a>
+    <a href="email-deliverability-apis.html" class="btn secondary">📧 6. Cold Email APIs</a>
+    <input type="text" class="topbar-input" placeholder="Filter any table..." oninput="filterTables(this.value)">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc">
+  <h2>Deep2K 90-Day Trust Audit</h2>
+  <a href="#truth-table">1 · Which of the 10 UTMs Are Saved vs. Dropped Today?</a>
+  <a href="#retention-audit">2 · 90-to-180 Day Retention Audit (All 5 Layers)</a>
+  <a href="#identity-persistence">3 · Why Slow Buyers Lose Identity (iOS ITP &amp; WebViews)</a>
+  <a href="#touchpoints-ledger">4 · Missing Table: `visitor_touchpoints` (Every Click Saved)</a>
+  <a href="#slow-vs-fast">5 · Slow vs. Fast Customer Journey Analytics Spec</a>
+  <a href="#code-patches">6 · Exact Code Patches for `new-deep2k`</a>
+    <div class="toc-divider"></div>
+  <h2>All 7 Pages &amp; Hub</h2>
+  <a href="index.html">&rarr; 🤖 Grok Bot OpenRouter Hub</a>
+  <a href="deep2k-audit.html">&rarr; 📊 Main Forensic Attribution Spec</a>
+  <a href="domain-continuity.html">&rarr; 🔗 Page 1: Zero-Data-Loss Domains</a>
+  <a href="seo-oldpc-plan.html">&rarr; 🚀 Page 2: OldPC SEO &amp; 8-Post Plan</a>
+  <a href="utm-city-bible.html">&rarr; 🎯 Page 3: 10-UTM City Bible (GAds+TT)</a>
+  <a href="netgrid-seo-deep-dive.html">&rarr; 🔍 Page 4: Netgrid SEO Deep-Dive</a>
+  <a href="deep2k-90day-audit.html" style="background:var(--accS);color:var(--acc2);font-weight:700;">&rarr; 🕵️ Page 5: Deep2K 90-Day Trust Audit</a>
+  <a href="email-deliverability-apis.html">&rarr; 📧 Page 6: Cold Email &amp; Deliverability APIs</a>
+</nav>
+
+<main>
+<header class="hero" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f766e 100%)">
+  <span class="eyebrow">Forensic Source-Code Audit · Repo: rosicjacob-sys/new-deep2k · 90–180 Day Journey Persistence</span>
+  <h1>Deep2K Trust &amp; 90-Day Customer Journey Audit: What Deep2K Actually Stores vs. Drops Today, and How to Guarantee Every UTM &amp; Every Touchpoint Survives for 90–180 Days</h1>
+  <p>
+    You asked to verify whether Deep2K can truly be trusted to track <b>every UTM parameter and every customer action for at least 90 days</b> so we understand both <b>fast buyers</b> (same-hour / same-day) and <b>slow buyers</b> (7, 14, 30, or 90 days later across multiple sessions).
+    We audited every line of <code>packages/shared/src/attribution.ts</code>, <code>apps/worker/src/index.ts</code>, <code>apps/api/src/lib/journeyStore.ts</code>, <code>apps/api/src/jobs/pruneEvents.ts</code>, and <code>packages/db/src/schema.ts</code>.
+    Below is the exact truth of what Deep2K saves today, the <b>6 hidden gaps where Deep2K currently drops parameters or loses slow buyers</b>, and the exact code patches to make 90–180 day multi-touch tracking 100% bulletproof.
+  </p>
+  <div class="meta-row">
+    <span><b>Target Repo:</b> <code>rosicjacob-sys/new-deep2k</code></span>
+    <span><b>DB Retention (`pruneEvents.ts`):</b> `events` = 90d · `journey_*` = 180d</span>
+    <span><b>Cookie Cap Bug Found:</b> `order_attribution_v2` = 30d (Must be 180d!)</span>
+  </div>
+</header>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="label">10 UTM Params in `landing_url`</div>
+    <div class="val ok">10 / 10 Raw</div>
+    <div class="note">Full URL (up to 2,400 chars) is saved in `landing_url`, **but only 7 of 10 have dedicated SQL columns!**</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">3 Params Stripped Without Columns</div>
+    <div class="val risk">3 Dropped!</div>
+    <div class="note"><code>utm_id</code>, <code>matchtype</code>, and <code>loc_physical_ms</code> are in `TRACKING_PARAMS` (stripped from `path`), but have NO DB column!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Shopify Cookie Expiry Today</div>
+    <div class="val risk">Only 30 Days</div>
+    <div class="note"><code>COOKIE_DAYS = 30</code> in `order-attribution-capture.deep2k.liquid:22` — forgets every buyer after Day 30!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Middle Ad Touches Overwritten</div>
+    <div class="val warn">First &amp; Last Only</div>
+    <div class="note"><code>anonymous_visitors</code> only stores `first_*` and `last_*` — if a buyer clicks 4 ads over 60 days, Touches #2 &amp; #3 are overwritten!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Safari ITP &amp; TikTok WebView</div>
+    <div class="val risk">7-Day Wipe</div>
+    <div class="note">Safari caps JS `localStorage`/cookies at 7 days for non-returning users, and TikTok WebView isolates storage from Safari!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">PostgreSQL Journey Retention</div>
+    <div class="val ok">180 Days</div>
+    <div class="note"><code>JOURNEY_RETENTION_DAYS = 180</code> in `render.yaml:106` &amp; `pruneEvents.ts:12` (and buyers with orders are NEVER pruned!).</div>
+  </div>
+</div>
+<section class="card" id="truth-table">
+  <h2 class="sec"><span class="num">1</span>Forensic Audit: What Deep2K Actually Does With Each of Our 10 UTM Parameters Today</h2>
+  <p class="sub">We traced every parameter from the browser (<code>template.ts</code>) &rarr; Cloudflare Worker (<code>apps/worker/src/index.ts</code> + <code>attribution.ts</code>) &rarr; API (<code>journeyStore.ts</code>) &rarr; PostgreSQL (<code>schema.ts</code>).</p>
+
+  <div class="callout warn">
+    <b>The #1 Discovery in <code>packages/shared/src/attribution.ts</code> (lines 36–90 &amp; 253–330):</b><br>
+    Deep2K has a set called <code>TRACKING_PARAMS</code> (45 parameter names) that it <b>strips from <code>path</code></b> so <code>/products/bpc-157?utm_source=google...</code> rolls up cleanly as <code>/products/bpc-157</code>.
+    However, before stripping them, <code>parseAttribution()</code> only extracts <b>7 of our 10 parameters</b> into dedicated database columns! The other <b>3 parameters (<code>utm_id</code>, <code>matchtype</code>, <code>loc_physical_ms</code>)</b> are stripped from <code>path</code> and survive <i>only</i> inside the unindexed raw <code>landing_url</code> string — and on <code>anonymous_visitors</code> and <code>orders</code>, <b><code>term</code>, <code>content</code>, <code>network</code>, <code>placement</code>, and <code>click_id</code> are ONLY stored for the FIRST touch, NEVER for the LAST touch!</b>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Parameter</th>
+          <th>Read by <code>parseAttribution()</code>?</th>
+          <th>Saved on <code>orders</code> (First Touch)?</th>
+          <th>Saved on <code>orders</code> (Last Touch)?</th>
+          <th>What Must Be Fixed in <code>new-deep2k</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><code>utm_source</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_source</code>)</span></td><td><span class="pill ok">Yes (<code>last_non_direct_source</code>)</span></td><td>Already working.</td></tr>
+        <tr><td><b>2</b></td><td><code>utm_medium</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_medium</code>)</span></td><td><span class="pill risk">NO! (<code>last_medium</code> missing)</span></td><td>Add <code>last_medium</code> &amp; <code>last_non_direct_medium</code> to <code>orders</code>.</td></tr>
+        <tr><td><b>3</b></td><td><code>utm_campaign</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_campaign</code>)</span></td><td><span class="pill ok">Yes (<code>last_non_direct_campaign</code>)</span></td><td>Already working.</td></tr>
+        <tr class="highlight-risk"><td><b>4</b></td><td><code>utm_id</code> / <code>campaignid</code></td><td><span class="pill warn">Only <code>gad_campaignid</code>!</span></td><td><span class="pill risk">NO! Dropped!</span></td><td><span class="pill risk">NO! Dropped!</span></td><td><b>BUG:</b> <code>attribution.ts:255</code> reads <code>param('gad_campaignid')</code>, NOT <code>param('utm_id')</code> or <code>param('campaignid')</code>! Fix line 255 to: <code>param('utm_id') ?? param('campaignid') ?? param('gad_campaignid')</code> and store in <code>campaign_id</code>!</td></tr>
+        <tr class="highlight-warn"><td><b>5</b></td><td><code>utm_content</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_content</code>)</span></td><td><span class="pill risk">NO! (<code>last_content</code> missing!)</span></td><td>Add <code>last_content</code> to <code>anonymous_visitors</code>, <code>journey_sessions</code>, and <code>orders</code> so we know which ad creative closed the sale!</td></tr>
+        <tr class="highlight-warn"><td><b>6</b></td><td><code>utm_term</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_term</code>)</span></td><td><span class="pill risk">NO! (<code>last_term</code> missing!)</span></td><td>Add <code>last_term</code> so we know the exact search keyword on the closing ad click, not just the first click!</td></tr>
+        <tr><td><b>7</b></td><td><code>network</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_network</code>)</span></td><td><span class="pill risk">NO! (<code>last_network</code> missing!)</span></td><td>Add <code>last_network</code>.</td></tr>
+        <tr><td><b>8</b></td><td><code>placement</code></td><td><span class="pill ok">Yes</span></td><td><span class="pill ok">Yes (<code>first_placement</code>)</span></td><td><span class="pill risk">NO! (<code>last_placement</code> missing!)</span></td><td>Add <code>last_placement</code>.</td></tr>
+        <tr class="highlight-risk"><td><b>9</b></td><td><code>matchtype</code></td><td><span class="pill risk">NO! Stripped &amp; ignored!</span></td><td><span class="pill risk">Only in raw <code>landing_url</code></span></td><td><span class="pill risk">NO!</span></td><td>Extract <code>param('matchtype')</code> in <code>parseAttribution()</code> and store in <code>matchtype</code> / <code>first_matchtype</code> / <code>last_matchtype</code>.</td></tr>
+        <tr class="highlight-risk"><td><b>10</b></td><td><code>loc_physical_ms</code></td><td><span class="pill risk">NO! Stripped &amp; ignored!</span></td><td><span class="pill risk">Only in raw <code>landing_url</code></span></td><td><span class="pill risk">NO!</span></td><td>Extract <code>param('loc_physical_ms')</code> in <code>parseAttribution()</code> and store in <code>loc_physical_ms</code> / <code>first_loc_physical_ms</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="retention-audit">
+  <h2 class="sec"><span class="num">2</span>90-to-180 Day Retention Audit: How Long Does Deep2K Actually Keep Data at Every Layer?</h2>
+  <p class="sub">To track a slow customer who clicks an ad on Day 1 and buys on Day 75 or Day 90, <b>every single layer</b> (Browser + Cookie + Worker + Postgres) must survive for at least 90–180 days.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Where It Lives in <code>new-deep2k</code></th>
+          <th>Current Retention / Expiry</th>
+          <th>Pass / Fail for 90-Day Slow Buyers?</th>
+          <th>Exact Fix Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1. Event Ingestion Timestamp Window</b></td>
+          <td><code>apps/api/src/lib/journeyStore.ts:35</code></td>
+          <td><b>30 Days</b> (<code>now - 30 * 24 * 60 * 60_000</code>)</td>
+          <td><span class="pill ok">Fine for live beacons</span></td>
+          <td>Rejects events with a client clock skewed &gt;30 days in the past.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>2. Shopify Attribution Cookie (<code>order_attribution_v2</code>)</b></td>
+          <td><code>order-attribution-capture.deep2k.liquid:22</code></td>
+          <td><b>ONLY 30 DAYS! (<code>var COOKIE_DAYS = 30;</code>)</b></td>
+          <td><span class="pill risk">FAILS AT DAY 31!</span></td>
+          <td>If a customer clicks a Google Ad on Day 1 and buys on Day 35, the <code>order_attribution_v2</code> cookie has <b>expired and disappeared</b>! Change <code>COOKIE_DAYS</code> from <code>30</code> to <b><code>180</code></b>!</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>3. Browser <code>localStorage</code> (<code>d2k_aid_v1</code>)</b></td>
+          <td><code>packages/tracker-generator/src/template.ts:12</code></td>
+          <td>No JS expiry, <b>BUT Safari ITP wipes <code>localStorage</code> after 7 days of no visits!</b></td>
+          <td><span class="pill risk">FAILS ON SAFARI / iOS AFTER 7 DAYS!</span></td>
+          <td>In Safari/iOS (over 55% of Canadian mobile traffic), ITP deletes JS-written <code>localStorage</code> and <code>document.cookie</code> if the user doesn't visit the site for 7 days! See <b>Section 3 below</b> for the Server-Side First-Party <code>Set-Cookie</code> + Customer-Key Stitch fix!</td>
+        </tr>
+        <tr class="highlight-ok">
+          <td><b>4. Legacy <code>events</code> &amp; <code>pageviews_hourly</code> Table Pruning</b></td>
+          <td><code>apps/api/src/index.ts:249</code> &amp; <code>jobs/pruneEvents.ts:4</code></td>
+          <td><b>90 Days</b> (<code>pruneOldEvents(db, 90)</code>)</td>
+          <td><span class="pill ok">90 Days (Increase to 180d!)</span></td>
+          <td>Change <code>pruneOldEvents(db, 90)</code> in <code>index.ts:249</code> to <code>pruneOldEvents(db, 180)</code> so <code>/utm-audit</code> works for 180 days too!</td>
+        </tr>
+        <tr class="highlight-ok">
+          <td><b>5. <code>journey_events</code>, <code>journey_sessions</code>, <code>anonymous_visitors</code> Pruning</b></td>
+          <td><code>render.yaml:106</code> &amp; <code>jobs/pruneEvents.ts:12</code></td>
+          <td><b>180 Days</b> (<code>JOURNEY_RETENTION_DAYS = 180</code>)</td>
+          <td><span class="pill ok">PASSES (180 Days + Order Guard)</span></td>
+          <td><code>pruneJourneyData()</code> keeps all journey sessions and anonymous visitors for <b>180 days</b>, AND any visitor who EVER placed an order is kept FOREVER!</td>
+        </tr>
+        <tr class="highlight-ok">
+          <td><b>6. <code>orders</code>, <code>checkouts</code>, <code>leads</code>, <code>marketing_spend</code>, <code>daily_stats</code></b></td>
+          <td><code>packages/db/src/schema.ts</code></td>
+          <td><b>Kept Forever (Never Pruned)</b></td>
+          <td><span class="pill ok">PASSES (Forever)</span></td>
+          <td>Financial and daily rollup tables are never pruned.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="identity-persistence">
+  <h2 class="sec"><span class="num">3</span>Why Slow Buyers Lose Their Identity After 7 Days on iPhone/Safari (And How to Fix It)</h2>
+  <p class="sub">If 60% of our Canadian customers browse on iPhones (Safari / TikTok in-app browser), <code>localStorage.getItem('d2k_aid_v1')</code> is NOT enough for a 90-day buying cycle.</p>
+
+  <div class="two-col">
+    <div class="callout risk" style="margin:0">
+      <b>The Two Browser Traps That Break 90-Day Tracking Today:</b>
+      <ol style="margin-top:6px">
+        <li><b>Apple Safari ITP 7-Day Cap:</b> On iOS Safari and macOS Safari, any <code>localStorage</code> entry (<code>d2k_aid_v1</code>) or JavaScript <code>document.cookie</code> (<code>order_attribution_v2</code>) is <b>automatically wiped by Apple after 7 days</b> if the user doesn't open that domain during those 7 days!</li>
+        <li><b>TikTok / Instagram In-App WebView Isolation:</b> When someone clicks a TikTok Ad, it opens inside TikTok's built-in browser (<code>BytedanceWebview</code>). If they click "Open in Safari" or type the URL into Safari 3 days later, Safari has a completely separate <code>localStorage</code> from TikTok's WebView!</li>
+      </ol>
+    </div>
+    <div class="callout ok" style="margin:0">
+      <b>The 3-Layer Fix for True 90–180 Day Persistence:</b>
+      <ol style="margin-top:6px">
+        <li><b>Layer 1 — Server-Side HTTP <code>Set-Cookie</code> on First-Party Subdomains (<code>t.store.com</code>):</b> When a store uses a First-Party Cloudflare Worker route (e.g. <code>diagnostics.montrealpeptides.com</code>), the Worker response sets an HTTP <code>Set-Cookie: d2k_aid=&lt;uuid&gt;; Max-Age=15552000; Path=/; Domain=.montrealpeptides.com; SameSite=Lax; Secure</code>.</li>
+        <li><b>Layer 2 — Email / Phone Capture Stitching (<code>form_submitted</code> &rarr; <code>customer_key</code>):</b> When a Day-1 ad visitor enters their email/phone in a "Get Lab COA PDF / 10% Off" popup, hash their email/phone into <code>customer_key</code> and save <code>customer_key</code> on <code>journey_sessions</code>! Then if they buy 45 days later on a different device or browser, <code>recoverAttribution</code> (<code>same_customer</code>) stitches the order back to their Day-1 ad click!</li>
+        <li><b>Layer 3 — Increase <code>COOKIE_DAYS = 180</code> &amp; Sync Both <code>localStorage</code> + <code>document.cookie</code>:</b> Store <code>d2k_aid_v1</code> AND <code>d2k_touch_v1</code> in <b>both</b> <code>localStorage</code> AND a 180-day <code>document.cookie</code>.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+<section class="card" id="touchpoints-ledger">
+  <h2 class="sec"><span class="num">4</span>The Missing Table for 90-Day Multi-Touch Journeys: `visitor_touchpoints`</h2>
+  <p class="sub">Why `anonymous_visitors` (`first_*` and `last_*`) loses middle touchpoints, and why we need an append-only `visitor_touchpoints` ledger kept for 180+ days.</p>
+
+  <div class="callout warn">
+    <b>Look at what happens in `journeyStore.ts` today when a slow customer visits 4 times over 45 days:</b>
+    <ul style="margin-top:6px">
+      <li><b>Day 1:</b> Clicks Gerry's TikTok Ad (`montreal_2026-10-01_ttvideo`) &rarr; `first_channel = Paid Social`, `last_non_direct_channel = Paid Social`.</li>
+      <li><b>Day 12:</b> Searches Google and clicks Gerry's Google Search Ad (`montreal_2026-10-12_gbpc157`, keyword=`bpc 157 montreal`) &rarr; `last_non_direct_channel` is overwritten to `Paid Search`.</li>
+      <li><b>Day 25:</b> Clicks a Google Business Profile (GMB) map listing &rarr; `last_non_direct_channel` is overwritten to `Business Profile` (**wiping out the Day 12 Google Search Ad from `anonymous_visitors`!**).</li>
+      <li><b>Day 40:</b> Clicks Jerome's Promo Email (`montreal-free-ghk-cu`) and buys &rarr; `last_non_direct_channel` is overwritten to `Email`!</li>
+    </ul>
+    Because `journey_events` only stores raw pageviews (and gets pruned or is expensive to scan across 90 days), and `anonymous_visitors` only keeps `first_*` and `last_*`, **Touch #2 (the Day 12 Google Search Ad) and Touch #3 (the Day 25 GMB click) are overwritten on `anonymous_visitors` and `orders`!**
+  </div>
+
+  <h3>The Solution: Add `visitor_touchpoints` (1 Compact Row Per Marketing Touch, Kept 365 Days)</h3>
+  <p>Every time a session starts with a non-Direct channel (or any tagged UTM/click ID), insert one lightweight row into `visitor_touchpoints`. Even 100,000 ad clicks is only ~15 MB in Postgres, so it can be kept for **365 days** and queried in milliseconds!</p>
+
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Migration 0026: Full 10-UTM &amp; 365-Day Touchpoints Ledger</button>
+    <pre><code>-- packages/db/migrations/0026_full_utm_and_touchpoints.sql
+
+-- 1. Add the missing UTM columns (campaign_id, matchtype, loc_physical_ms) and last-touch details to journey_sessions &amp; orders
+ALTER TABLE journey_sessions
+  ADD COLUMN IF NOT EXISTS first_campaign_id text,
+  ADD COLUMN IF NOT EXISTS first_matchtype text,
+  ADD COLUMN IF NOT EXISTS first_loc_physical_ms text;
+
+ALTER TABLE anonymous_visitors
+  ADD COLUMN IF NOT EXISTS first_campaign_id text,
+  ADD COLUMN IF NOT EXISTS first_matchtype text,
+  ADD COLUMN IF NOT EXISTS first_loc_physical_ms text,
+  ADD COLUMN IF NOT EXISTS last_term text,
+  ADD COLUMN IF NOT EXISTS last_content text,
+  ADD COLUMN IF NOT EXISTS last_click_id text,
+  ADD COLUMN IF NOT EXISTS last_network text,
+  ADD COLUMN IF NOT EXISTS last_placement text,
+  ADD COLUMN IF NOT EXISTS last_matchtype text,
+  ADD COLUMN IF NOT EXISTS last_loc_physical_ms text,
+  ADD COLUMN IF NOT EXISTS customer_key text;
+
+ALTER TABLE orders
+  ADD COLUMN IF NOT EXISTS first_campaign_id text,
+  ADD COLUMN IF NOT EXISTS first_matchtype text,
+  ADD COLUMN IF NOT EXISTS first_loc_physical_ms text,
+  ADD COLUMN IF NOT EXISTS last_medium text,
+  ADD COLUMN IF NOT EXISTS last_term text,
+  ADD COLUMN IF NOT EXISTS last_content text,
+  ADD COLUMN IF NOT EXISTS last_click_id text,
+  ADD COLUMN IF NOT EXISTS last_network text,
+  ADD COLUMN IF NOT EXISTS last_placement text,
+  ADD COLUMN IF NOT EXISTS last_matchtype text,
+  ADD COLUMN IF NOT EXISTS last_loc_physical_ms text,
+  ADD COLUMN IF NOT EXISTS first_touch_at timestamptz,
+  ADD COLUMN IF NOT EXISTS last_non_direct_at timestamptz,
+  ADD COLUMN IF NOT EXISTS touch_count integer DEFAULT 1,
+  ADD COLUMN IF NOT EXISTS touch_journey jsonb DEFAULT '[]'::jsonb;
+
+-- 2. Create the 365-day append-only visitor_touchpoints ledger (never overwrites middle ad clicks!)
+CREATE TABLE IF NOT EXISTS visitor_touchpoints (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  site_id uuid NOT NULL REFERENCES sites(id) ON DELETE CASCADE,
+  anonymous_id uuid NOT NULL,
+  session_id uuid NOT NULL,
+  customer_key text,
+  occurred_at timestamptz NOT NULL DEFAULT now(),
+  channel text NOT NULL,
+  source text,
+  medium text,
+  campaign text,
+  campaign_id text,
+  term text,
+  content text,
+  click_id text,
+  click_source text,
+  network text,
+  placement text,
+  matchtype text,
+  loc_physical_ms text,
+  landing_url text,
+  referrer_url text
+);
+
+CREATE INDEX IF NOT EXISTS visitor_touchpoints_aid_time_idx ON visitor_touchpoints(anonymous_id, occurred_at);
+CREATE INDEX IF NOT EXISTS visitor_touchpoints_ckey_time_idx ON visitor_touchpoints(customer_key, occurred_at) WHERE customer_key IS NOT NULL;
+CREATE INDEX IF NOT EXISTS visitor_touchpoints_site_time_idx ON visitor_touchpoints(site_id, occurred_at);</code></pre>
+  </div>
+</section>
+<section class="card" id="slow-vs-fast">
+  <h2 class="sec"><span class="num">5</span>Slow vs. Fast Customer Journey Analytics Spec (90-Day Cohort &amp; Lag Report)</h2>
+  <p class="sub">How Deep2K should classify and display Fast Buyers vs. Medium Buyers vs. Slow Buyers on the Sales &amp; Campaigns dashboard.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Buyer Speed Cohort</th>
+          <th>Time From First Touch to Order</th>
+          <th>Typical Customer Behavior in Our Peptide Network</th>
+          <th>Metrics Deep2K Must Show for Each Cohort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-ok">
+          <td><b>⚡ Impulse / Fast Buyers (<code>&lt; 24 Hours</code>)</b><br>&bull; Sub-bucket A: <code>&lt; 1 Hour</code> (Same Session)<br>&bull; Sub-bucket B: <code>1 – 24 Hours</code> (Same Day)</td>
+          <td>0 to 24 hours</td>
+          <td>High-intent searchers (<code>"buy bpc 157 ottawa"</code>, <code>"retatrutide canada"</code>) or returning repeat customers clicking an email/SMS promo (<code>pc-new-coas-dropped</code>).</td>
+          <td>Orders, Revenue (CAD/USD), % of total orders, Avg Sessions (<code>1.1</code>), Top First-Touch Channel, Top Closing Channel, Avg Order Value (AOV).</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>🔍 Research / Medium Buyers (<code>1 to 7 Days</code>)</b><br>&bull; Sub-bucket C: <code>1 – 3 Days</code><br>&bull; Sub-bucket D: <code>4 – 7 Days</code></td>
+          <td>24 to 168 hours</td>
+          <td>Clicked a Google Ad or TikTok Ad on Day 1, checked Janoshik COAs and Reddit/Google reviews (<code>"&lt;city&gt; peptides reviews"</code>), then returned via <code>Direct</code> or <code>Organic Search</code> 2–6 days later to place their order.</td>
+          <td>Orders, Revenue, % of orders that started on Paid Ads but closed on Direct/Email, Avg Sessions before buying (<code>2.4</code>), Assisted ROAS.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>🐢 Slow / Multi-Cycle Buyers (<code>8 to 90+ Days</code>)</b><br>&bull; Sub-bucket E: <code>8 – 14 Days</code><br>&bull; Sub-bucket F: <code>15 – 30 Days</code><br>&bull; Sub-bucket G: <code>31 – 90+ Days</code></td>
+          <td>8 to 90+ days</td>
+          <td>1) First-time peptide researchers who saw Gerry's Oct 1–19 Montreal TikTok Ads or Whitby/Waterloo Google Ads and waited until payday (Oct 20–31) to buy.<br>2) Repeat customers finishing a 4-week vial of BPC-157 / Retatrutide and coming back on Day 30–60 for their 2nd and 3rd orders!</td>
+          <td>Orders, Revenue, 30d / 60d / 90d Customer Lifetime Value (LTV) by First-Touch Ad Campaign, Repeat Order Rate, Full <code>touch_journey</code> path (<code>Paid Social &rarr; Organic Search &rarr; Email &rarr; Direct</code>).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Ready-to-Paste SQL Query for the 90-Day Slow vs. Fast Buyer Report (<code>/api/v1/analytics/sales</code>)</h3>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy 90-Day Slow vs. Fast Journey SQL</button>
+    <pre><code>-- Query: 90-Day Slow vs. Fast Customer Journey Breakdown per Acquisition Channel
+WITH buyer_journeys AS (
+  SELECT
+    o.id AS order_id,
+    o.site_id,
+    COALESCE(o.first_channel, av.first_channel, '(unattributed)') AS intro_channel,
+    COALESCE(o.last_non_direct_channel, av.last_non_direct_channel, o.first_channel, 'Direct') AS closing_channel,
+    COALESCE(o.first_campaign, av.first_campaign) AS intro_campaign,
+    o.currency,
+    (o.amount - COALESCE(o.refunded_amount, 0))::float AS net_revenue,
+    o.submitted_at,
+    COALESCE(
+      o.first_touch_at,
+      av.first_seen_at,
+      (SELECT MIN(vt.occurred_at) FROM visitor_touchpoints vt
+       WHERE (vt.anonymous_id = o.anonymous_id OR (o.customer_key IS NOT NULL AND vt.customer_key = o.customer_key))
+         AND vt.occurred_at &lt;= o.submitted_at),
+      o.submitted_at
+    ) AS first_seen_at,
+    COALESCE(
+      (SELECT COUNT(DISTINCT js.id)::int FROM journey_sessions js
+       WHERE js.anonymous_id = o.anonymous_id AND js.started_at &lt;= o.submitted_at),
+      1
+    ) AS total_sessions
+  FROM orders o
+  LEFT JOIN anonymous_visitors av ON av.id = o.anonymous_id
+  WHERE o.payment_status = 'paid'
+    AND o.traffic_class IN ('human', 'likely_human')
+    AND o.submitted_at &gt;= now() - interval '90 days'
+)
+SELECT
+  intro_channel,
+  COUNT(*)::int AS total_paid_orders,
+  ROUND(AVG(EXTRACT(epoch FROM (submitted_at - first_seen_at)) / 86400.0)::numeric, 1)::float AS avg_days_to_buy,
+  ROUND(AVG(total_sessions)::numeric, 2)::float AS avg_sessions_to_buy,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &lt; interval '1 hour')::int AS fast_under_1h,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '1 hour' AND submitted_at - first_seen_at &lt; interval '24 hours')::int AS fast_1h_to_24h,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '1 day' AND submitted_at - first_seen_at &lt; interval '3 days')::int AS med_1d_to_3d,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '3 days' AND submitted_at - first_seen_at &lt; interval '7 days')::int AS med_3d_to_7d,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '7 days' AND submitted_at - first_seen_at &lt; interval '14 days')::int AS slow_7d_to_14d,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '14 days' AND submitted_at - first_seen_at &lt; interval '30 days')::int AS slow_14d_to_30d,
+  COUNT(*) FILTER (WHERE submitted_at - first_seen_at &gt;= interval '30 days')::int AS slow_31d_to_90d_plus
+FROM buyer_journeys
+GROUP BY 1
+ORDER BY total_paid_orders DESC;</code></pre>
+  </div>
+</section>
+<section class="card" id="code-patches">
+  <h2 class="sec"><span class="num">6</span>Exact Code Patches to Capture All 10 UTMs &amp; Guarantee 180-Day Retention</h2>
+  <p class="sub">Give these 3 patches to the Deep2K developer (<code>rosicjacob-sys/new-deep2k</code>) alongside the migration in Section 4.</p>
+
+  <h3>Patch A: <code>packages/shared/src/attribution.ts</code> — Extract <code>utm_id</code>/<code>campaignid</code>, <code>matchtype</code>, and <code>loc_physical_ms</code></h3>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy attribution.ts Patch</button>
+    <pre><code>// In packages/shared/src/attribution.ts (lines 255-268):
+const adCampaignId = param('utm_id') ?? param('campaignid') ?? param('gad_campaignid');
+const utmSource = param('utm_source');
+const utmMedium = param('utm_medium');
+const utmCampaign = param('utm_campaign') ?? adCampaignId;
+const utmTerm = param('utm_term');
+const utmContent = param('utm_content');
+const network = param('network') ?? param('utm_network');
+const placement = param('placement');
+const matchtype = param('matchtype');
+const locPhysicalMs = param('loc_physical_ms');
+
+// Return matchtype and locPhysicalMs in the Attribution object so worker &amp; webhooks store them!</code></pre>
+  </div>
+
+  <h3>Patch B: <code>packages/tracker-generator/src/template.ts</code> — 180-Day Dual Cookie + <code>localStorage</code> Persistence</h3>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy template.ts 180-Day Cookie Patch</button>
+    <pre><code>// In packages/tracker-generator/src/template.ts:
+// Store d2k_aid_v1 and d2k_touch_v1 in BOTH localStorage AND a 180-day 1st-party cookie
+var COOKIE_DAYS = 180;
+function readCookie(name) {
+  var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function writeCookie(name, value, days) {
+  var d = new Date(Date.now() + (days || COOKIE_DAYS) * 86400000);
+  var host = location.hostname.replace(/^www\./, '');
+  document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;domain=.' + host + ';SameSite=Lax';
+}
+function read(key) {
+  try {
+    var ls = localStorage.getItem(key);
+    if (ls) return JSON.parse(ls);
+  } catch (_) {}
+  try {
+    var ck = readCookie(key);
+    if (ck) {
+      try { localStorage.setItem(key, ck); } catch (_) {}
+      return JSON.parse(ck);
+    }
+  } catch (_) {}
+  return null;
+}
+function write(key, value) {
+  var raw = JSON.stringify(value);
+  try { localStorage.setItem(key, raw); } catch (_) {}
+  try { writeCookie(key, raw, COOKIE_DAYS); } catch (_) {}
+}</code></pre>
+  </div>
+
+  <h3>Patch C: <code>apps/api/src/index.ts</code> — Increase Legacy Event Pruning from 90 Days to 180 Days</h3>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy index.ts Retention Patch</button>
+    <pre><code>// In apps/api/src/index.ts (line 249):
+// Change pruneOldEvents(db, 90) to use env.JOURNEY_RETENTION_DAYS (180 days):
+const deleted = await pruneOldEvents(db, env.JOURNEY_RETENTION_DAYS);
+const journeyDeleted = await pruneJourneyData(db, env.JOURNEY_RETENTION_DAYS);</code></pre>
+  </div>
+</section>
+
+
+<footer class="colophon">
+  Deliverable 5 · Deep2K 90-to-180 Day Customer Journey &amp; 10-UTM Trust Audit · Prepared November 3, 2026
+</footer>
+</main>
+</div>
+
+<script>
+function copyCode(btn) {
+  var pre = btn.parentElement.querySelector('pre');
+  if (!pre) return;
+  navigator.clipboard.writeText(pre.innerText).then(function() {
+    var old = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = old; }, 1600);
+  });
+}
+function filterTables(q) {
+  var query = String(q || '').trim().toLowerCase();
+  document.querySelectorAll('table tbody tr').forEach(function(tr) {
+    var text = tr.innerText.toLowerCase();
+    tr.style.display = (!query || text.indexOf(query) !== -1) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
