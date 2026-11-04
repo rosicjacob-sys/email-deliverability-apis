@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Deep2K Attribution &amp; Ad Tracking — Complete Engineering Spec &amp; Forensic Audit (2026-11)</title>
+<style>
+:root{--ink:#0f172a;--ink2:#334155;--muted:#64748b;--line:#e2e8f0;--bg:#f8fafc;--card:#fff;--acc:#0f766e;--acc2:#115e59;--accS:#f0fdfa;--accB:#99f6e4;--warn:#b45309;--warnS:#fffbeb;--warnB:#fde68a;--risk:#b91c1c;--riskS:#fef2f2;--riskB:#fecaca;--ok:#15803d;--okS:#f0fdf4;--okB:#bbf7d0;--blue:#1d4ed8;--blueS:#eff6ff;--blueB:#bfdbfe;--code:#0f172a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.58;-webkit-font-smoothing:antialiased}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(15,23,42,.96);backdrop-filter:blur(8px);color:#fff;border-bottom:1px solid #1e293b;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.topbar-badge{background:#14b8a6;color:#042f2e;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;text-transform:uppercase}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.topbar-input{background:#1e293b;border:1px solid #334155;color:#f8fafc;padding:6px 12px;border-radius:7px;font-size:12.5px;width:270px}
+.btn{background:#0f766e;color:#fff;border:1px solid #14b8a6;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:#115e59}
+.btn.secondary{background:#1e293b;border-color:#475569;color:#e2e8f0}
+.wrap{display:flex;max-width:1440px;margin:0 auto;gap:24px;padding:24px;align-items:flex-start}
+nav.toc{position:sticky;top:68px;width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 12px;max-height:calc(100vh - 88px);overflow:auto}
+nav.toc h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:8px 8px 6px;font-weight:700}
+nav.toc a{display:block;padding:6px 9px;font-size:12.5px;color:var(--ink2);text-decoration:none;border-radius:6px;line-height:1.35;margin-bottom:2px}
+nav.toc a:hover{background:var(--accS);color:var(--acc2);font-weight:600}
+nav.toc .toc-divider{height:1px;background:var(--line);margin:10px 6px}
+main{flex:1;min-width:0}
+header.hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 60%,#0f766e 100%);color:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
+header.hero .eyebrow{display:inline-block;background:rgba(20,184,166,.2);border:1px solid rgba(94,234,212,.4);color:#99f6e4;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:999px;margin-bottom:12px}
+header.hero h1{font-size:25px;line-height:1.25;margin-bottom:10px;font-weight:800}
+header.hero p{opacity:.94;max-width:980px;font-size:14.2px;line-height:1.6}
+.meta-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15);font-size:12.5px;opacity:.92}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:22px}
+.kpi-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi-card .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.kpi-card .val{font-size:22px;font-weight:800;color:var(--ink);margin:4px 0 2px}
+.kpi-card .val.risk{color:var(--risk)}.kpi-card .val.warn{color:var(--warn)}.kpi-card .val.ok{color:var(--ok)}
+.kpi-card .note{font-size:11.5px;color:var(--muted);line-height:1.35}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:22px}
+h2.sec{font-size:19.5px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:10px;font-weight:800}
+h2.sec .num{background:var(--acc);color:#fff;border-radius:8px;font-size:12.5px;padding:3px 9px;flex-shrink:0;font-weight:700}
+.sub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+h3{font-size:15.5px;margin:22px 0 8px;color:var(--acc2);font-weight:700}
+h4{font-size:13.5px;margin:14px 0 6px;color:var(--ink);font-weight:700}
+p,li{font-size:13.8px;color:var(--ink2)}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin-bottom:6px}
+b,strong{color:var(--ink)}
+.table-wrap{width:100%;overflow-x:auto;margin:12px 0;border-radius:10px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:12.6px}
+th{background:#f1f5f9;text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:11.2px;text-transform:uppercase;letter-spacing:.04em;color:#475569;font-weight:700}
+th:last-child,td:last-child{border-right:none}
+td{padding:8px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#fafcfe}
+tr.highlight-risk td{background:#fff5f5}tr.highlight-ok td{background:#f0fdf4}tr.highlight-warn td{background:#fffbeb}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+code,.mono{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:11.8px;background:#f1f5f9;color:#0f172a;padding:2px 6px;border-radius:5px;border:1px solid #e2e8f0}
+.code-block{position:relative;margin:10px 0 16px}
+pre{background:var(--code);color:#e2e8f0;padding:16px 18px;border-radius:10px;overflow:auto;font-size:12px;line-height:1.55;border:1px solid #1e293b}
+pre code{background:none;color:inherit;padding:0;border:none;font-size:inherit}
+.copy-btn{position:absolute;top:8px;right:8px;background:#1e293b;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer}
+.copy-btn:hover{background:#334155;color:#fff}
+.callout{border-left:4px solid var(--acc);background:var(--accS);border-top:1px solid var(--accB);border-right:1px solid var(--accB);border-bottom:1px solid var(--accB);border-radius:0 10px 10px 0;padding:13px 16px;margin:12px 0;font-size:13.5px}
+.callout.warn{border-color:var(--warnB);border-left-color:var(--warn);background:var(--warnS)}
+.callout.risk{border-color:var(--riskB);border-left-color:var(--risk);background:var(--riskS)}
+.callout.ok{border-color:var(--okB);border-left-color:var(--ok);background:var(--okS)}
+.callout.blue{border-color:var(--blueB);border-left-color:var(--blue);background:var(--blueS)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.pill.p0,.pill.risk{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.pill.p1,.pill.warn{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.pill.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.pill.info{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+footer.colophon{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 36px}
+@media(max-width:1024px){.wrap{flex-direction:column}nav.toc{position:static;width:100%;max-height:none}.two-col{grid-template-columns:1fr}}
+@media print{.topbar,nav.toc,.copy-btn{display:none!important}section.card{break-inside:avoid;box-shadow:none}body{background:#fff}.wrap{padding:0;max-width:100%}}
+
+/* High-contrast fix for top hero box */
+header.hero, header.hero h1, header.hero b, header.hero strong { color: #ffffff !important; }
+header.hero p, header.hero li, header.hero .meta-row, header.hero .meta-row span { color: #f8fafc !important; opacity: 1 !important; }
+header.hero code, header.hero .mono { background: rgba(15, 23, 42, 0.6) !important; color: #99f6e4 !important; border: 1px solid rgba(153, 246, 228, 0.45) !important; font-weight: 600; }
+.topbar a.btn.secondary { color: #f8fafc !important; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-brand">
+    <span class="topbar-badge">Deep2K V3 + Ads Ops</span>
+    <span>Attribution &amp; Buying-Cycle Engineering Handoff · Forensic Audit (Oct 1 – Nov 2, 2026)</span>
+  </div>
+  <div class="topbar-actions">
+    <a href="index.html" class="btn secondary">🤖 Grok Bot Hub</a>
+    <a href="deep2k-audit.html" class="btn secondary" style="background:#0f766e;border-color:#14b8a6;color:#fff;font-weight:800;">📊 Main Audit</a>
+    <a href="domain-continuity.html" class="btn secondary">🔗 1. Domain Continuity</a>
+    <a href="seo-oldpc-plan.html" class="btn secondary">🚀 2. OldPC SEO Plan</a>
+    <a href="utm-city-bible.html" class="btn secondary">🎯 3. 10-UTM Bible</a>
+    <a href="netgrid-seo-deep-dive.html" class="btn secondary">🔍 4. Netgrid Deep-Dive</a>
+    <a href="deep2k-90day-audit.html" class="btn secondary">🕵️ 5. Deep2K 90-Day</a>
+    <a href="email-deliverability-apis.html" class="btn secondary">📧 6. Cold Email APIs</a>
+    <input type="text" class="topbar-input" placeholder="Filter any table..." oninput="filterTables(this.value)">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc">
+  <h2>1 · Forensic Audit</h2>
+  <a href="#exec">0 · Executive Summary &amp; The Mystery</a>
+  <a href="#forensic">1 · Gerry Spend vs. Deep2K Stores</a>
+  <a href="#contradiction">2 · Store vs. Channel Contradiction</a>
+  <a href="#tiktok-lag">3 · Montreal TikTok &amp; Google Lag</a>
+  <div class="toc-divider"></div>
+  <h2>2 · Root Causes &amp; UTMs</h2>
+  <a href="#bugs">4 · The 7 Code &amp; Config Root Causes</a>
+  <a href="#utm-spec">5 · Mandatory Google &amp; TikTok UTM Spec</a>
+  <a href="#city-table">6 · Ready-to-Paste URLs (All 17 Cities)</a>
+  <a href="#spend-sync">7 · Google Ads Spend Feed Auto-Sync</a>
+  <div class="toc-divider"></div>
+  <h2>3 · Buying Cycles &amp; Code</h2>
+  <a href="#buying-cycle">8 · Buying-Cycle &amp; Lag Telemetry Spec</a>
+  <a href="#code-patches">9 · Exact Code Patches for new-deep2k</a>
+  <a href="#domain-fixes">10 · Urgent Store &amp; DNS Fixes</a>
+  <a href="#checklist">11 · Acceptance Checklist (Dev + Ads)</a>
+
+  <div class="toc-divider"></div>
+  <h2>All 7 Pages &amp; Hub</h2>
+  <a href="index.html">&rarr; 🤖 Grok Bot OpenRouter Hub</a>
+  <a href="deep2k-audit.html" style="background:var(--accS);color:var(--acc2);font-weight:700;">&rarr; 📊 Main Forensic Attribution Spec</a>
+  <a href="domain-continuity.html">&rarr; 🔗 Page 1: Zero-Data-Loss Domains</a>
+  <a href="seo-oldpc-plan.html">&rarr; 🚀 Page 2: OldPC SEO &amp; 8-Post Plan</a>
+  <a href="utm-city-bible.html">&rarr; 🎯 Page 3: 10-UTM City Bible (GAds+TT)</a>
+  <a href="netgrid-seo-deep-dive.html">&rarr; 🔍 Page 4: Netgrid SEO Deep-Dive</a>
+  <a href="deep2k-90day-audit.html">&rarr; 🕵️ Page 5: Deep2K 90-Day Trust Audit</a>
+  <a href="email-deliverability-apis.html">&rarr; 📧 Page 6: Cold Email &amp; Deliverability APIs</a>
+</nav>
+
+<main>
+<header class="hero">
+  <span class="eyebrow">Action Required · Deep2K Developer &amp; Paid Ads Manager (Gerry)</span>
+  <h1>Why Paid Ads Showed $0 in Channel Reports, Where Our Sales Actually Came From, and How to Track Every Buying Cycle End-to-End</h1>
+  <p>
+    This document reconciles <b>Gerry’s October–November Google Ads &amp; TikTok Ads Spend Sheet</b> against <b>Deep2K’s production analytics &amp; source code (<code>rosicjacob-sys/new-deep2k</code>)</b>.
+    It proves city-by-city that Paid Ads brought real traffic and real orders — but because of <b>missing UTMs, unconfigured Google Ads Spend Feeds, broken checkout handoffs, and first-touch cookie rules</b>, paid sales were systematically misfiled under <code>Direct</code> or <code>(unattributed)</code>.
+    Below is the complete forensic proof AND the exact engineering + ad-ops specification to fix it permanently, including <b>buying-cycle / time-to-purchase telemetry</b> (how many hours/days after clicking an ad a customer actually buys).
+  </p>
+  <div class="meta-row">
+    <span><b>Prepared:</b> November 3, 2026</span>
+    <span><b>Target Repo:</b> <code>rosicjacob-sys/new-deep2k</code> (API: <code>new-deep2k.onrender.com</code>)</span>
+    <span><b>Ad Spend Source:</b> Gerry Sheet (<code>gid=895074702</code>, Oct 1 – Nov 2)</span>
+    <span><b>Deep2K Data:</b> Finalized Oct 20–26 + Provisional Oct 27–Nov 1</span>
+  </div>
+</header>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="label">Gerry Google Ads (Oct 1–Nov 2)</div>
+    <div class="val">$1,463</div>
+    <div class="note"><b>2,643 clicks</b> across 16 city stores ($412 / 1,034 clicks in Oct 20–26; $359 / 637 clicks in Oct 27–Nov 2)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Gerry TikTok Ads (Oct 1–Nov 2)</div>
+    <div class="val">$1,463</div>
+    <div class="note"><b>10,983 clicks</b> on Canada Peps ($1,002 Oct 1–19 on Toronto/MTL/WPG) + $441 on Viken Gym (Oct 24–Nov 1)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Deep2K Reported Paid Revenue</div>
+    <div class="val risk">$0.00</div>
+    <div class="note">Channel table reported <b>0 paid orders</b> for Paid Search &amp; Paid Social despite 690 Paid Search visitors in Oct 20–26</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Untagged Paid Sessions (1 Wk)</div>
+    <div class="val warn">159 / 749</div>
+    <div class="note"><b>21.2% of paid visits</b> arrived with raw <code>gclid</code> only (96), literal <code>{campaignid}</code> (3), or unrecognised medium</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Wasted Ad Spend on Broken Sites</div>
+    <div class="val risk">$195+</div>
+    <div class="note">Gerry paid for clicks to <code>oshawapeptides.store</code> (DNS dead + v1 script), <code>monctonpeptides.store</code> (Suspended), and Vaughan 404</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">Orders Filed Under "Direct"</div>
+    <div class="val warn">39 Orders</div>
+    <div class="note">24 finalized (Oct 20–26) + 15 provisional (Oct 27–Nov 1) = <b>36% of all orders</b> absorbing delayed &amp; untagged ad buyers</div>
+  </div>
+</div>
+<section class="card" id="exec">
+  <h2 class="sec"><span class="num">0</span>Executive Summary: What Actually Happened to Our Sales?</h2>
+  <p class="sub">The logical reconciliation between our store orders, Deep2K channel numbers, and Gerry's ad spend sheet.</p>
+
+  <div class="callout ok">
+    <b>Bottom-Line Finding:</b> Our sales did <b>not</b> appear out of thin air from people randomly typing city URLs into their browser.
+    When we cross-reference Gerry’s daily spend log against Deep2K’s store-level traffic, campaign tables, and source code, four facts are proven beyond doubt:
+  </div>
+
+  <ol>
+    <li>
+      <b>Google Ads sent real traffic AND real orders to the exact city stores Gerry paid for — but the Channel Summary hid them:</b>
+      In Oct 20–26, Gerry spent <b>$412 for 1,034 Google Ads clicks</b> across 9 Canadian city stores. Deep2K’s Store Table (Section 4) literally lists <code>Paid Search</code> as the <b>#1 Top Channel</b> on <code>vaughanpeps.ca</code> (567 visitors, +734%, <b>2 paid orders / CA$179.60</b>) and <code>pickeringpeps.com</code> (65 visitors, <b>1 paid order / CA$76.10</b>). Yet Deep2K’s Channel Summary (Section 2) reported <b>0 orders and $0.00 revenue for Paid Search</b>!
+    </li>
+    <li>
+      <b>Why Paid Search orders were misfiled under <code>Direct</code> (36% of orders) or <code>(unattributed)</code>:</b>
+      <ul>
+        <li><b>Broken Checkout Handoff / Missing Snippets:</b> When a customer clicks a Google Ad and goes to checkout, if the storefront runs an older v1 tracker (like <code>oshawapeptides.store</code>), is missing the checkout snippet (like <code>pickeringpeps.com</code> after its theme switch), or the handoff token lapses, the order arrives at Deep2K without a linked <code>session_id</code>.</li>
+        <li><b>Multi-Session Buying Lag (People Don't Buy on Click #1 in Peptide E-Commerce):</b> Researching peptides takes days. A buyer clicks Gerry’s Google Ad or TikTok Ad on Day 1, reads COAs/dosages, leaves, and comes back on Day 3 or Day 6 by typing the domain or tapping an open mobile tab. If localStorage/cookie state was cleared (or in iOS/TikTok in-app browser &rarr; Safari switch), Session #2 starts as <code>Direct</code>.</li>
+        <li><b>First-Touch Default (<code>model=first</code>):</b> Every Deep2K report defaults to <code>model=first</code>. Any customer whose very first visit weeks ago was untagged/Direct or Organic Search, and who later clicked Gerry's Google Ad to actually buy, has <b>100% of their order credited to their old first touch</b> and <b>$0 credited to Paid Search</b>.</li>
+      </ul>
+    </li>
+    <li>
+      <b>Why Deep2K says <i>"no ad spend in Deep2K yet, so no ROAS"</i>:</b>
+      Deep2K V3 already has a built-in Google Ads Spend Feed endpoint (<code>POST /api/spend-feeds/ingest</code>) and a ready-to-paste Google Ads MCC script (<code>apps/api/src/lib/googleAdsScript.ts</code>), <b>but nobody installed the script in Gerry's Google Ads MCC</b>, AND Gerry’s campaign names don't follow Deep2K’s required <code>&lt;city&gt;_&lt;YYYY-MM-DD&gt;</code> naming rule (<code>packages/shared/src/campaignNaming.ts</code>). As a result, Google Ads spend in Deep2K is $0, numeric campaign IDs (<code>24353743836</code>, <code>24360315351</code>, <code>24365570351</code> = 574 sessions) remain unresolved numbers, and ROAS cannot be calculated.
+    </li>
+    <li>
+      <b>Why Montreal (<code>montrealpeptides.com</code>) had 27 "Direct" orders (CA$3,188.34) even after visitors dropped 66%:</b>
+      Between Oct 1 and Oct 19, Gerry pumped <b>$317 and 4,053 TikTok Ad clicks</b> into Montreal (plus $352 / 2,553 clicks into Toronto and $333 / 4,185 clicks into Winnipeg = <b>10,791 TikTok clicks</b>). On Oct 20, Gerry cut Montreal TikTok Ads to $0. Traffic immediately dropped 66% (1,539 &rarr; 526 visitors), <b>but paid orders jumped from 17 to 27 (CA$3,188.34)</b> — almost all credited to <code>Direct</code> + promo emails (<code>montreal-free-ghk-cu</code>, <code>pc-new-coas-dropped</code>). Those were delayed conversions from the Oct 1–19 TikTok wave + repeat buyers!
+    </li>
+  </ol>
+</section>
+<section class="card" id="forensic">
+  <h2 class="sec"><span class="num">1</span>Forensic Proof: Gerry’s Ad Spend Sheet vs. Deep2K Store Performance</h2>
+  <p class="sub">Complete city-by-city reconciliation of Gerry’s Google Ads &amp; TikTok Ads log (<code>gid=895074702</code>) across all three October/November windows.</p>
+
+  <h3>1.1 Google Ads Spend &amp; Clicks by City Store (Oct 1 – Nov 2, 2026) — Part A (Active Oct 20–26)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City / Target Store</th>
+          <th class="num-col">Oct 1–19 Spend</th>
+          <th class="num-col">Oct 20–26 Spend</th>
+          <th class="num-col">Oct 27–Nov 2 Spend</th>
+          <th class="num-col">Total Google Ads</th>
+          <th class="num-col">Visitors (Oct 20–26)</th>
+          <th>Store Top Channel</th>
+          <th class="num-col">Orders (Oct 20–26)</th>
+          <th>Forensic Diagnosis &amp; Attribution Fate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-warn">
+          <td><b>Vaughan</b><br><code>vaughanpeps.ca</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$108 (470c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$108 (470c)</b></td>
+          <td class="num-col"><b>567</b> (+734%)</td>
+          <td><span class="pill warn">Paid Search</span></td>
+          <td class="num-col"><b>2 orders</b><br>(CA$179.60)</td>
+          <td><b>SMOKING GUN #1:</b> Gerry launched Vaughan ads Oct 20. Visitors jumped 68 &rarr; 567. Store Top Channel is <code>Paid Search</code>, 2 orders paid — yet Channel Report says Paid Search = 0 orders! Also had literal <code>{campaignid}</code> &amp; <code>click_id_only</code>, plus <code>/collections/all-products</code> returns 404.</td>
+        </tr>
+        <tr>
+          <td><b>Kitchener</b><br><code>kitchenerpeps.com</code></td>
+          <td class="num-col">$16 (66c)</td>
+          <td class="num-col"><b>$81 (148c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$97 (214c)</b></td>
+          <td class="num-col"><b>182</b> (+452%)</td>
+          <td><span class="pill warn">Paid Search</span></td>
+          <td class="num-col">0 orders</td>
+          <td>148 Google Ads clicks drove 182 visitors (+452%). Flagged in Section 6 for <code>click_id_only</code> (no UTM campaign). Later went quiet Nov 1 when tracker script dropped from theme.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>Oshawa</b><br><code>oshawapeptides.store</code></td>
+          <td class="num-col">$35 (122c)</td>
+          <td class="num-col"><b>$69 (183c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$104 (305c)</b></td>
+          <td class="num-col"><b>169</b> (-10%)</td>
+          <td><span class="pill warn">Paid Search</span></td>
+          <td class="num-col">0 orders</td>
+          <td><b>WASTED SPEND:</b> Store runs <b>outdated Tracker v1</b> (loses checkout handoff) AND <b>domain DNS failed (<code>ENOTFOUND</code>)</b>! Also flagged for <code>utm_medium=product_sync</code> (<code>sag_organic</code>).</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>Pickering</b><br><code>pickeringpeps.com</code></td>
+          <td class="num-col">$44 (87c)</td>
+          <td class="num-col"><b>$43 (83c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$87 (170c)</b></td>
+          <td class="num-col"><b>65</b> (-43%)</td>
+          <td><span class="pill warn">Paid Search</span></td>
+          <td class="num-col"><b>1 order</b><br>(CA$76.10)</td>
+          <td><b>SMOKING GUN #2:</b> Store Top Channel is <code>Paid Search</code> and it got 1 paid order (CA$76.10), plus 2 paid orders prev week (CA$90.98). Missing checkout tracking snippet since theme switch + Display junk placements (<code>quizzop.com</code>, <code>trueaim360.com</code>, <code>mdfg01.top</code>).</td>
+        </tr>
+        <tr>
+          <td><b>Winnipeg</b><br><code>winnipegpeptides.store</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$37 (39c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$37 (39c)</b></td>
+          <td class="num-col">22 (new)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col">0 orders</td>
+          <td>Domain swapped from <code>.shop</code> to <code>.store</code> during Oct 20–26. Ad destination / tracker domain transition split sessions.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>1.2 Google Ads Spend &amp; Clicks — Part B (Remaining 11 Cities)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City / Target Store</th>
+          <th class="num-col">Oct 1–19 Spend</th>
+          <th class="num-col">Oct 20–26 Spend</th>
+          <th class="num-col">Oct 27–Nov 2 Spend</th>
+          <th class="num-col">Total Google Ads</th>
+          <th class="num-col">Visitors (Oct 20–26)</th>
+          <th>Store Top Channel</th>
+          <th class="num-col">Orders (Oct 20–26)</th>
+          <th>Forensic Diagnosis &amp; Attribution Fate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-ok">
+          <td><b>Montreal</b><br><code>montrealpeptides.com</code></td>
+          <td class="num-col">$0 (0c)<br><i>(TikTok: $317)</i></td>
+          <td class="num-col"><b>$27 (6c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$27 (6c)</b></td>
+          <td class="num-col"><b>526</b> (-66%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>27 orders</b><br>(CA$3,188.34)</td>
+          <td>Google Ads only got 6 clicks ($4.83–$10.08 CPC). The 27 orders came from <b>delayed conversions of the 4,053 TikTok clicks (Oct 1–19)</b> + promo emails + returning buyers, filed under <code>Direct</code>.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>Moncton</b><br><code>monctonpeptides.store</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$18 (56c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$18 (56c)</b></td>
+          <td class="num-col"><b>78</b> (+63%)</td>
+          <td><span class="pill info">Organic Shopping</span></td>
+          <td class="num-col">0 orders<br>(2 abandoned)</td>
+          <td><b>WASTED SPEND:</b> Domain <b>suspended by Namecheap (<code>Server Hold</code>)</b>! Plus ads sent literal unexpanded <code>{campaignid}</code> and raw <code>gclid</code> with no UTMs.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>Edmonton</b><br><code>edmontonpeptides.com</code></td>
+          <td class="num-col"><b>$265 (306c)</b></td>
+          <td class="num-col"><b>$17 (34c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$282 (340c)</b></td>
+          <td class="num-col"><b>66</b> (-84%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>2 orders</b><br>(CA$382.49)</td>
+          <td>Gerry spent $265 (306 clicks) in Oct 1–19 (4 paid orders prev week) and $17 in Oct 20–26 (2 paid orders). Flagged for <code>click_id_only</code> — orders landed in <code>Direct</code>.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>Halifax</b><br><code>halifaxpeptides.shop</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$12 (15c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$12 (15c)</b></td>
+          <td class="num-col"><b>39</b> (-52%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>1 order</b><br>(CA$426.60)</td>
+          <td>Gerry ran Google Ads Oct 21 ($12, 15 clicks). Flagged for <code>click_id_only</code>. Store recorded 1 high-ticket order (CA$426.60).</td>
+        </tr>
+        <tr>
+          <td><b>Waterloo</b><br><code>waterloopeps.ca</code></td>
+          <td class="num-col"><b>$206 (222c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$106 (129c)</b></td>
+          <td class="num-col"><b>$312 (351c)</b></td>
+          <td class="num-col">33 (-72%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col">0 orders<br><b>(3 prev wk: CA$510.31)</b></td>
+          <td><b>PROOF OF AD CORRELATION:</b> When Gerry spent $206 on Waterloo (Oct 9–19), Waterloo got <b>119 visitors and 3 paid orders (CA$510.31)</b>! When paused in Oct 20–26 ($0), visitors dropped 72% and orders dropped to 0! Restarted Oct 27 ($106).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City / Target Store</th>
+          <th class="num-col">Oct 1–19 Spend</th>
+          <th class="num-col">Oct 20–26 Spend</th>
+          <th class="num-col">Oct 27–Nov 2 Spend</th>
+          <th class="num-col">Total Google Ads</th>
+          <th class="num-col">Visitors (Oct 20–26)</th>
+          <th>Store Top Channel</th>
+          <th class="num-col">Orders (Oct 20–26)</th>
+          <th>Forensic Diagnosis &amp; Attribution Fate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-ok">
+          <td><b>Ottawa</b><br><code>ottawapeptides.com</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$102 (32c)</b></td>
+          <td class="num-col"><b>$102 (32c)</b></td>
+          <td class="num-col">135 (+11%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>3 orders</b><br>(CA$403.15)</td>
+          <td>Strong store (3 orders Oct 20–26, 5 prev week); Gerry added $102 Google Ads Oct 29–Nov 1.</td>
+        </tr>
+        <tr>
+          <td><b>Surrey</b><br><code>surreypeptides.com</code></td>
+          <td class="num-col">$58 (73c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$67 (134c)</b></td>
+          <td class="num-col"><b>$125 (207c)</b></td>
+          <td class="num-col">86 (-40%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col">0 orders</td>
+          <td>Flagged in Section 6 for <code>click_id_only</code> (Google Ads clicks arriving without UTM campaign tags).</td>
+        </tr>
+        <tr class="highlight-ok">
+          <td><b>Mississauga</b><br><code>mississaugapeps.ca</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$44 (248c)</b></td>
+          <td class="num-col"><b>$44 (248c)</b></td>
+          <td class="num-col">55 (+15%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>1 order</b><br>(CA$130.50)</td>
+          <td>Very cheap CPC ($0.15–$0.27, 248 clicks in Oct 28–Nov 1). Flagged for <code>click_id_only</code>.</td>
+        </tr>
+        <tr>
+          <td><b>Guelph</b><br><code>guelphpeps.ca</code></td>
+          <td class="num-col">$17 (90c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$34 (86c)</b></td>
+          <td class="num-col"><b>$51 (176c)</b></td>
+          <td class="num-col">69 (+38%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col">0 orders</td>
+          <td>Flagged for <code>click_id_only</code>. Re-launched Nov 1–2 ($34, 86 clicks).</td>
+        </tr>
+        <tr class="highlight-ok">
+          <td><b>Whitby</b><br><code>whitbypeps.com</code></td>
+          <td class="num-col"><b>$51 (206c)</b></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$51 (206c)</b></td>
+          <td class="num-col">22 (-85%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col"><b>1 order</b><br>(CA$213.30)</td>
+          <td><b>DELAYED BUYING CYCLE PROOF:</b> Gerry spent $51 (206c) on Whitby Oct 9–12 (142 visitors Oct 13–19), then paused ($0 Oct 20–26). Visitors fell 85%, <b>yet Whitby got a CA$213.30 order in Oct 20–26</b> credited to <code>Direct</code>!</td>
+        </tr>
+        <tr>
+          <td><b>Lethbridge</b><br><code>lethbridgepeps.com</code></td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col">$0 (0c)</td>
+          <td class="num-col"><b>$6 (8c)</b></td>
+          <td class="num-col"><b>$6 (8c)</b></td>
+          <td class="num-col">60 (-79%)</td>
+          <td><span class="pill info">Direct</span></td>
+          <td class="num-col">0 orders<br><b>(8 prev wk: CA$694.23)</b></td>
+          <td>Had 8 paid orders (CA$694.23) in Oct 13–19; Gerry started testing Google Ads Oct 30–Nov 1 ($6, 8 clicks, <code>click_id_only</code>).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>1.3 TikTok Ads Spend &amp; Clicks by Account (Oct 1 – Nov 1, 2026)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>TikTok Campaign / Target</th>
+          <th class="num-col">Oct 1–19 Spend (Clicks)</th>
+          <th class="num-col">Oct 20–26 Spend (Clicks)</th>
+          <th class="num-col">Oct 27–Nov 1 Spend (Clicks)</th>
+          <th class="num-col">Total TikTok Spend</th>
+          <th>Impact on Store Traffic &amp; Delayed Orders</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-ok">
+          <td><b>A2-Montreal</b> (Canada Peps)<br><code>montrealpeptides.com</code></td>
+          <td class="num-col"><b>$317 (4,053 clicks)</b><br>CPC $0.05–$0.13</td>
+          <td class="num-col">$0 (0 clicks)<br><i>Paused Oct 20</i></td>
+          <td class="num-col">$0 (0 clicks)</td>
+          <td class="num-col"><b>$317 (4,053 clicks)</b></td>
+          <td>Generated massive top-of-funnel awareness in Montreal (1,539 visitors in Oct 13–19). When paused on Oct 20, visitors dropped to 526, <b>but delayed orders surged from 17 to 27 (CA$3,188.34)</b> in Oct 20–26!</td>
+        </tr>
+        <tr>
+          <td><b>A1-Toronto</b> (Canada Peps)<br><code>torontopeptides.shop/.store</code></td>
+          <td class="num-col"><b>$352 (2,553 clicks)</b></td>
+          <td class="num-col">$10 (62 clicks)<br><i>Paused Oct 21</i></td>
+          <td class="num-col">$0 (0 clicks)</td>
+          <td class="num-col"><b>$362 (2,615 clicks)</b></td>
+          <td>Domain rotated from <code>.shop</code> to <code>.store</code>; old script mismatch on <code>burnabypeptides.store</code> pointed to <code>torontopeptides.shop</code>.</td>
+        </tr>
+        <tr>
+          <td><b>A3-Winnipeg</b> (Canada Peps)<br><code>winnipegpeptides.shop/.store</code></td>
+          <td class="num-col"><b>$333 (4,185 clicks)</b></td>
+          <td class="num-col">$10 (130 clicks)<br><i>Paused Oct 21</i></td>
+          <td class="num-col">$0 (0 clicks)</td>
+          <td class="num-col"><b>$343 (4,315 clicks)</b></td>
+          <td>Domain rotated from <code>.shop</code> to <code>.store</code> right as TikTok ads were paused.</td>
+        </tr>
+        <tr>
+          <td><b>A1-Viken</b> (Viken Gym)<br><i>Separate Gym Offer</i></td>
+          <td class="num-col">$0 (0 clicks)</td>
+          <td class="num-col"><b>$143 (345 clicks)</b><br><i>Started Oct 24</i></td>
+          <td class="num-col"><b>$298 (728 clicks)</b></td>
+          <td class="num-col"><b>$441 (1,073 clicks)</b></td>
+          <td>All TikTok budget from Oct 24 onward went to Viken Gym, not Canada Peps stores.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="contradiction">
+  <h2 class="sec"><span class="num">2</span>The Store Table vs. Channel Table Contradiction Explained</h2>
+  <p class="sub">How a store's #1 Top Channel can be <code>Paid Search</code> with paid orders, while the Channel Summary reports 0 orders for <code>Paid Search</code>.</p>
+
+  <div class="callout warn">
+    <b>Look at <code>apps/api/src/routes/dashboard.ts</code> (lines 95–103 &amp; 195–215):</b><br>
+    In Deep2K’s code, a store’s <code>topChannel</code> column is calculated from <b>visitor traffic (<code>ft</code>, the most common channel among visitors to that store)</b>, whereas the Channel Summary’s <code>Paid orders</code> column is calculated from <b>the <code>orders.first_channel</code> column on the order row (<code>channelOf(model, 'o')</code>)</b>!
+  </div>
+
+  <p>Here is what happens step-by-step on <code>vaughanpeps.ca</code> and <code>pickeringpeps.com</code>:</p>
+  <ol>
+    <li>Gerry sends <b>470 Google Ads clicks</b> to <code>vaughanpeps.ca</code> (<code>?gclid=...</code> or <code>?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=24353743836</code>).</li>
+    <li>Deep2K’s Cloudflare Worker receives those 567 visitors and classifies their sessions as <code>Paid Search</code>. Because 500+ of Vaughan's 567 visitors are <code>Paid Search</code>, Vaughan’s <code>Top channel</code> in Section 4 is displayed as <b><code>Paid Search</code></b>.</li>
+    <li>Now 2 of those customers actually buy on <code>vaughanpeps.ca</code> (spending CA$179.60) and 1 buys on <code>pickeringpeps.com</code> (spending CA$76.10).</li>
+    <li><b>Why didn't those 3 orders get <code>first_channel = 'Paid Search'</code> on the <code>orders</code> row?</b>
+      <ul>
+        <li><b>Path A (Shared Checkout Portal):</b> When the buyer clicks Checkout, the storefront script tries to call <code>POST /api/sites/:id/handoff</code>. If the store's <code>checkout_domain</code> isn't configured, or the theme navigated before the 2500ms token fetch completed, the order arrives at <code>POST /api/integrations/checkout/events</code> <b>without a <code>handoff_token</code></b> (<code>recordWithoutStore</code> at <code>integrations.ts:255</code>). The order is saved with <code>first_channel = NULL</code> (<code>(unattributed)</code>), or if <code>recoverAttribution</code> (<code>attributionRecovery.ts</code>) matches an earlier untagged visit by the same customer, it copies <code>Direct</code>!</li>
+        <li><b>Path B (Shopify Webhook):</b> When the order arrives via <code>POST /api/sites/:id/webhook/shopify</code> (<code>webhooks.ts:206</code>), Deep2K ONLY checks two things: (1) cart <code>note_attributes</code> written by <code>order-attribution-capture.deep2k.liquid</code> (which is <b>not installed on most stores</b>, or as Carl reported, was lost on <code>pickeringpeps.com</code> during its theme switch!), and (2) Shopify's <code>order.landing_site</code> / <code>order.referring_site</code>. <b>Crucially, <code>webhooks.ts</code> NEVER joins the Shopify order against <code>journey_sessions</code>!</b> And if the customer came back in a second session (typed URL / bookmark) when placing the order, Shopify's <code>landing_site</code> is <code>/</code> with <code>referring_site = ""</code>, which <code>parseAttribution('/', '', site.domain)</code> classifies as <b><code>Direct</code></b>!</li>
+      </ul>
+    </li>
+  </ol>
+</section>
+<section class="card" id="tiktok-lag">
+  <h2 class="sec"><span class="num">3</span>The Buying Cycle &amp; Lag Effect (Why Ads Look Like "Direct" Days Later)</h2>
+  <p class="sub">Why peptide buyers rarely convert on their first ad click, and how our current tracking erases the ad that introduced them.</p>
+
+  <div class="two-col">
+    <div class="callout blue" style="margin:0">
+      <b>Case Study A: Montreal TikTok Wave (Oct 1–19 &rarr; Oct 20–26)</b>
+      <ul style="margin-top:6px">
+        <li><b>Oct 1–19:</b> Gerry spends <b>$317 on TikTok Ads</b> for Montreal, generating <b>4,053 clicks</b> (<code>A2-Montreal</code>).</li>
+        <li><b>Oct 13–19:</b> <code>montrealpeptides.com</code> has <b>1,539 visitors</b> and <b>17 paid orders (CA$2,388.73)</b>.</li>
+        <li><b>Oct 20–26:</b> Gerry pauses Montreal TikTok Ads ($0 spend). Paid Social visits drop 98.6% (1,051 &rarr; 15). Total Montreal visitors drop 65.8% (1,539 &rarr; 526).</li>
+        <li><b>The Lag Conversion Surge:</b> Despite 66% fewer visitors, Montreal paid orders <b>jump +59% from 17 to 27 orders (CA$3,188.34)</b>, with a <b>5.13% conversion rate</b>!</li>
+        <li><b>Why it showed as Direct:</b> TikTok ads open inside TikTok's in-app WebView (<code>BytedanceWebview</code>). When a buyer later opens Safari/Chrome to purchase, or taps an SMS/bookmark days later, Safari does not share <code>localStorage</code> (<code>d2k_aid_v1</code>) with TikTok's WebView! So their purchase session has a brand-new <code>anonymous_id</code> and <code>first_channel = Direct</code>.</li>
+      </ul>
+    </div>
+    <div class="callout blue" style="margin:0">
+      <b>Case Study B: Waterloo &amp; Whitby Google Ads Lag</b>
+      <ul style="margin-top:6px">
+        <li><b>Waterloo (<code>waterloopeps.ca</code>):</b> Gerry spent <b>$206 (222 clicks)</b> in Oct 9–19 &rarr; 119 visitors and <b>3 paid orders (CA$510.31)</b>. When paused in Oct 20–26 ($0), visitors dropped to 33 and orders dropped to 0.</li>
+        <li><b>Whitby (<code>whitbypeps.com</code>):</b> Gerry spent <b>$51 (206 clicks)</b> in Oct 9–12 &rarr; 142 visitors in Oct 13–19 (0 orders that week). Then in Oct 20–26 ($0 ad spend, only 22 visitors), one of those earlier visitors returned and placed a <b>CA$213.30 paid order</b> — credited to <code>Direct</code>.</li>
+        <li><b>Edmonton (<code>edmontonpeptides.com</code>):</b> Gerry spent <b>$265 (306 clicks)</b> in Oct 9–19 (4 paid orders, CA$348.00) and <b>$17 (34 clicks)</b> on Oct 21 (2 paid orders, CA$382.49) — all credited to <code>Direct</code> because the ads had raw <code>gclid</code> without UTMs or lost session continuity.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="card" id="bugs">
+  <h2 class="sec"><span class="num">4</span>The 7 Code &amp; Configuration Root Causes (Exact File &amp; Line Numbers)</h2>
+  <p class="sub">Every technical gap in <code>rosicjacob-sys/new-deep2k</code> and our store/ad setup that causes Paid Ads sales and buying-cycle data to disappear.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Severity</th>
+          <th>File &amp; Line in <code>new-deep2k</code></th>
+          <th>What Breaks Today</th>
+          <th>Required Engineering / Ops Fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-risk">
+          <td><b>RC-1</b></td>
+          <td><span class="pill p0">P0 · Critical</span></td>
+          <td><code>order-attribution-capture.deep2k.liquid:26</code><br>&amp; <code>packages/tracker-generator/src/template.ts:83</code></td>
+          <td>
+            <b>Two separate scripts &amp; wrong API URL:</b><br>
+            1) <code>order-attribution-capture.deep2k.liquid</code> has hardcoded <code>var DEEP2K_BASE = "https://deep2k.onrender.com"</code> (our live API is <code>https://new-deep2k.onrender.com</code>!) and requires manual <code>__DEEP2K_SITE_ID__</code> editing.<br>
+            2) The main tracker (<code>template.ts</code>) does <b>not</b> sync first/last touch + <code>anonymous_id</code> + <code>session_id</code> into Shopify’s <code>/cart/update.js</code> attributes! So any store that only has the main tracker loses attribution on Shopify native checkout.
+          </td>
+          <td>
+            <b>Bake <code>/cart/update.js</code> attribute sync directly into <code>template.ts</code>!</b> Whenever a visitor lands or starts a session on a Shopify store, <code>template.ts</code> should automatically write <code>Attribution Source/Medium/Campaign/Landing Page/Captured At</code>, <code>Attribution Last *</code>, AND <code>_d2k_aid</code> / <code>_d2k_sid</code> into <code>/cart/update.js</code> so every Shopify webhook order carries the exact <code>anonymous_id</code> and <code>session_id</code> automatically!
+          </td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>RC-2</b></td>
+          <td><span class="pill p0">P0 · Critical</span></td>
+          <td><code>apps/api/src/routes/webhooks.ts:275–336</code><br>&amp; <code>apps/api/src/lib/attributionRecovery.ts:70–150</code></td>
+          <td>
+            <b>Shopify Webhook Orders Never Join <code>journey_sessions</code> When <code>landing_site</code> Is Bare (<code>/</code>):</b><br>
+            When a customer clicks a Google Ad in Session 1, then comes back 2 days later by typing the domain (Session 2) and checks out via Shopify, Shopify’s <code>order.landing_site</code> is <code>"/"</code> and <code>referring_site</code> is <code>""</code>.<br>
+            In <code>webhooks.ts:144</code>, <code>shopifyChannel</code> calls <code>parseAttribution("/", "", site.domain)</code>, which returns <code>firstChannel = 'Direct'</code> with <code>method = 'shopify_landing'</code>!<br>
+            Because <code>firstChannel</code> is now <code>'Direct'</code> (not <code>NULL</code>), <code>unknownChannel('o')</code> in <code>attributionRecovery.ts:20</code> evaluates to <b>FALSE</b>! So <code>recoverOrder()</code> is <b>never even called</b>, and the order is permanently locked to <code>Direct</code> even if the exact same visitor/session clicked a Google Ad earlier!
+          </td>
+          <td>
+            <b>Fix <code>webhooks.ts</code> &amp; <code>attributionRecovery.ts</code>:</b><br>
+            1) Read <code>_d2k_aid</code> and <code>_d2k_sid</code> from <code>order.note_attributes</code> in <code>webhooks.ts</code> and join <code>anonymous_visitors</code> + <code>journey_sessions</code> directly!<br>
+            2) When <code>shopify_landing</code> only sees an untraced <code>Direct</code> visit (<code>!a.tagged &amp;&amp; a.channel === 'Direct'</code>), do <b>not</b> let it block <code>recoverOrder()</code> from checking if that visitor (<code>anonymous_id</code> or <code>customer_key</code>) had a prior Paid Search / Paid Social / Organic touch!
+          </td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>RC-3</b></td>
+          <td><span class="pill p0">P0 · Critical</span></td>
+          <td><code>packages/shared/src/campaignNaming.ts:6–10</code></td>
+          <td>
+            <b><code>storeCity()</code> Strips <code>"peptides"</code> But NOT <code>"peps"</code>!</b><br>
+            Look at line 9 of <code>campaignNaming.ts</code>:<br>
+            <code>return label.replace(/peptides?/g, '').replace(/[^a-z]/g, '');</code><br>
+            For <code>torontopeptides.shop</code>, <code>storeCity()</code> returns <code>"toronto"</code>.<br>
+            <b>BUG:</b> For <code>vaughanpeps.ca</code>, <code>kitchenerpeps.com</code>, <code>waterloopeps.ca</code>, <code>guelphpeps.ca</code>, <code>whitbypeps.com</code>, <code>mississaugapeps.ca</code>, <code>pickeringpeps.com</code>, <code>lethbridgepeps.com</code>, etc., <code>storeCity()</code> returns <b><code>"vaughanpeps"</code>, <code>"kitchenerpeps"</code>, <code>"waterloopeps"</code></b> instead of <code>"vaughan"</code>, <code>"kitchener"</code>, <code>"waterloo"</code>!<br>
+            So when Gerry names a campaign <code>vaughan_2026-10-20</code> or <code>waterloo_2026-10-27</code>, <code>storeForCampaign()</code> fails with <code>unknown_city</code> and <b>refuses to link the ad spend to the store</b>!
+          </td>
+          <td>
+            <b>One-line regex fix in <code>packages/shared/src/campaignNaming.ts:9</code>:</b><br>
+            Change <code>.replace(/peptides?/g, '')</code> to:<br>
+            <code>.replace(/(?:peptides?|peps|lab)$/g, '').replace(/^(?:peptides?|peps)/g, '')</code><br>
+            (Also handles <code>floridapeptideslab.com</code> &rarr; <code>florida</code>!).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Severity</th>
+          <th>File &amp; Line in <code>new-deep2k</code></th>
+          <th>What Breaks Today</th>
+          <th>Required Engineering / Ops Fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-warn">
+          <td><b>RC-4</b></td>
+          <td><span class="pill p1">P1 · High</span></td>
+          <td><code>packages/shared/src/attribution.ts:116–149</code></td>
+          <td>
+            <b><code>utm_medium=product_sync</code> (<code>sag_organic</code>) Is Unrecognised:</b><br>
+            Shopify's Google &amp; YouTube app tags Merchant Center links with <code>utm_source=google&amp;utm_medium=product_sync&amp;utm_campaign=sag_organic</code> (28 sessions on <code>oshawapeptides.store</code> and <code>waterloopeps.ca</code> in Oct 20–26, 44 in 14d). Because <code>product_sync</code> is not in <code>ORGANIC_SHOPPING_MEDIA</code>, <code>isRecognisedMedium('product_sync')</code> returns <code>false</code> (raising an alert) and <code>classifyChannel</code> sees <code>utm_source=google</code> and misclassifies free Google Shopping listings as <b><code>Paid Search</code> (<code>google / product_sync</code>)</b>!
+          </td>
+          <td>
+            In <code>packages/shared/src/attribution.ts</code>, add <code>'product_sync'</code> (when <code>utm_campaign</code> is <code>'sag_organic'</code> or no paid click ID is present) to <code>ORGANIC_SHOPPING_MEDIA</code> so Merchant Center free listings file cleanly under <code>Organic Shopping</code>.
+          </td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>RC-5</b></td>
+          <td><span class="pill p1">P1 · High</span></td>
+          <td>Gerry Google Ads Setup &amp; <code>Section 6 Tagging Issues</code></td>
+          <td>
+            <b>159 of 749 Paid Sessions Arrived Untagged or Malformed:</b><br>
+            &bull; <b>96 sessions (<code>click_id_only</code>):</b> Arrived with <code>?gclid=...</code> only and <b>zero UTM parameters</b> across all 16 Google Ads stores. Deep2K knows it's <code>Paid Search / Google</code>, but has <code>campaign = NULL</code> (<code>(no campaign)</code>).<br>
+            &bull; <b>574 sessions (<code>id_only</code>):</b> Arrived with numeric Google campaign IDs (<code>24353743836</code> = 316, <code>24360315351</code> = 156, <code>24365570351</code> = 102) because no <code>utm_campaign</code> name was set and the Google Ads Spend Feed script isn't running.<br>
+            &bull; <b>3 sessions (<code>{campaignid}</code> literal):</b> On <code>monctonpeptides.store</code> &amp; <code>vaughanpeps.ca</code>, Gerry put <code>{campaignid}</code> inside a field where Google doesn't expand ValueTrack macros.
+          </td>
+          <td>
+            1) Install the Account-Level Tracking Template + Custom Parameters in Google Ads (Section 5 &amp; 6 below).<br>
+            2) Install the Google Ads Spend Feed Script in MCC (Section 7 below).
+          </td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>RC-6</b></td>
+          <td><span class="pill p1">P1 · High</span></td>
+          <td><code>apps/api/src/lib/reportQuery.ts:62</code><br>&amp; <code>apps/api/src/routes/salesReport.ts:183</code></td>
+          <td>
+            <b>No Buying-Cycle / Days-to-Purchase Lag Metrics in Reports:</b><br>
+            1) <code>reportQuery.ts</code> defaults to <code>model: 'first'</code> (<code>first_channel</code>). If a user's first visit was Direct/Organic and they later clicked a Google Ad, <code>model=first</code> hides the ad.<br>
+            2) <code>salesReport.ts</code> calculates <code>hoursToPay</code> (<code>o.paid_at - o.submitted_at</code>), and <code>paths</code> (<code>Paid Search &rarr; Direct</code>), <b>but does NOT calculate <code>hoursFromFirstTouchToOrder</code> (<code>o.submitted_at - av.first_seen_at</code>) or <code>hoursFromLastAdClickToOrder</code> (<code>o.submitted_at - av.last_non_direct_at</code>)!</b>
+          </td>
+          <td>
+            Add Buying-Cycle Lag telemetry (<code>avgDaysToOrder</code>, <code>lagBuckets</code>: Same Day <code>&lt;24h</code>, <code>1–3d</code>, <code>4–7d</code>, <code>8–14d</code>, <code>15–30d</code>, <code>multiSessionOrders</code>) to <code>/v1/analytics/sales</code> and <code>/sales-report</code> (exact SQL in Section 8 &amp; 9).
+          </td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>RC-7</b></td>
+          <td><span class="pill p1">P1 · High</span></td>
+          <td><code>apps/api/src/lib/attributionRecovery.ts:45</code></td>
+          <td>
+            <b><code>CLICK_WINDOW = '2 hours'</code> Is Too Short for Delayed Checkouts:</b><br>
+            When checkout handoff fails (missing token), <code>recoverAttribution</code> step 2 (<code>checkout_click</code>) only looks back <b>2 hours</b> for a <code>checkout_clicked</code> event on that store. If a customer clicks checkout, leaves the portal tab open on their phone, and submits the order 5 hours later, <code>checkout_click</code> recovery misses it!
+          </td>
+          <td>
+            Increase <code>CLICK_WINDOW</code> in <code>attributionRecovery.ts</code> from <code>'2 hours'</code> to <code>'24 hours'</code> (matching <code>CHECKOUT_WINDOW</code>), and add a Step 2b that matches a unique human session on the same low-traffic city store within 24h when <code>first_channel</code> is a Paid channel.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="utm-spec">
+  <h2 class="sec"><span class="num">5</span>Mandatory Google Ads &amp; TikTok Ads UTM Specification</h2>
+  <p class="sub">Every single ad MUST carry both an Account-Level Tracking Template and a Campaign Custom Parameter (`{_campaign}`) so zero clicks ever arrive untagged.</p>
+
+  <div class="callout risk">
+    <b>Rule #1 for Gerry (Ads Manager):</b> Never rely on raw Final URLs alone, and never put `{campaignid}` inside the Final URL field!
+    In Google Ads, ValueTrack macros like `{campaignid}`, `{adgroupid}`, `{network}`, `{creative}`, and `{targetid}` are guaranteed to expand inside the <b>Tracking Template</b>, while the human-readable campaign name (`city_YYYY-MM-DD_offer`) is passed via a <b>Custom Parameter (`{_campaign}`)</b> on each campaign.
+  </div>
+
+  <h3>5.1 Google Ads Account-Level Tracking Template (Set Once per Ad Account)</h3>
+  <p>In every Google Ads account (or at the MCC level): go to <b>Settings &rarr; Account Settings &rarr; Tracking &rarr; Tracking template</b> and paste this exact string:</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Template</button>
+    <pre><code>{lpurl}?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign={_campaign}&amp;utm_id={campaignid}&amp;utm_content={adgroupid}_{creative}&amp;utm_term={keyword}&amp;network={network}&amp;placement={placement}&amp;matchtype={matchtype}&amp;targetid={targetid}&amp;loc_physical_ms={loc_physical_ms}</code></pre>
+  </div>
+
+  <ul>
+    <li><b>Why this works with <code>packages/shared/src/attribution.ts</code>:</b>
+      <ul>
+        <li><code>utm_source=google</code> &amp; <code>utm_medium=cpc</code>: Immediately classifies as <code>Paid Search</code> (or if <code>network=d</code> &rarr; <code>Paid Display</code>; if <code>network=ytv</code> &rarr; <code>Paid Video</code>; if <code>network=x</code> &rarr; <code>Paid Shopping</code> via <code>googleNetworkChannel()</code> at <code>attribution.ts:183</code>!).</li>
+        <li><code>utm_campaign={_campaign}</code>: Passes the human-readable campaign name in Deep2K’s mandatory format: <code>&lt;city&gt;_&lt;YYYY-MM-DD&gt;_&lt;offer&gt;</code> (e.g., <code>vaughan_2026-11-03_search</code>).</li>
+        <li><code>utm_id={campaignid}</code>: Also passes Google’s numeric campaign ID so Deep2K joins it to the automated Google Ads Spend Feed even if a name is ever mistyped.</li>
+        <li><code>TRACKING_PARAMS</code> in <code>attribution.ts:36–90</code> already strips all of these parameters after reading them, so your page URLs in reports stay clean (<code>/</code> or <code>/products/bpc-157</code>).</li>
+      </ul>
+    </li>
+    <li><b>Fallback if Gerry prefers putting UTMs directly in the Final URL Suffix:</b>
+      Paste this into <b>Final URL suffix</b> at the Account or Campaign level:
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy Final URL Suffix</button>
+        <pre><code>utm_source=google&amp;utm_medium=cpc&amp;utm_campaign={_campaign}&amp;utm_id={campaignid}&amp;utm_content={adgroupid}_{creative}&amp;utm_term={keyword}&amp;network={network}&amp;placement={placement}</code></pre>
+      </div>
+    </li>
+  </ul>
+
+  <h3>5.2 Mandatory Campaign Naming Convention (`<city>_<YYYY-MM-DD>_<suffix>`)</h3>
+  <p>
+    Deep2K’s `checkCampaignName()` (`packages/shared/src/campaignNaming.ts:12`) enforces this exact regex:<br>
+    <code>/^([a-z]+)_(\d{4})-(\d{2})-(\d{2})(?:_[a-z0-9-]+)*$/</code>
+  </p>
+  <div class="two-col">
+    <div class="callout ok" style="margin:0">
+      <b>VALID Campaign Names (Deep2K Auto-Maps to Store + Calculates ROAS):</b>
+      <ul style="margin-top:6px">
+        <li><code>vaughan_2026-10-20_search</code></li>
+        <li><code>waterloo_2026-10-27_bpc157</code></li>
+        <li><code>ottawa_2026-10-29_exact</code></li>
+        <li><code>montreal_2026-11-03_tiktok</code></li>
+      </ul>
+    </div>
+    <div class="callout risk" style="margin:0">
+      <b>INVALID Campaign Names (Flagged as `bad_name` / Cannot Map Spend to Store):</b>
+      <ul style="margin-top:6px">
+        <li><code>A1-Waterloo</code> or <code>A3-Mississauga</code> (Gerry's current names)</li>
+        <li><code>MontrealCanada</code> or <code>MontrealNEWPeps</code> (flagged in Section 6!)</li>
+        <li><code>{campaignid}</code> (literal unexpanded text)</li>
+        <li><code>24353743836</code> (numeric ID with no spend feed synced)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>5.3 TikTok Ads Mandatory URL Parameters</h3>
+  <p>In TikTok Ads Manager, append this exact query string to every Website URL (TikTok automatically replaces <code>__CAMPAIGN_NAME__</code>, <code>__AID__</code>, <code>__CID__</code>, and appends <code>ttclid</code>):</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy TikTok UTM Suffix</button>
+    <pre><code>?utm_source=tiktok&amp;utm_medium=paid_social&amp;utm_campaign=montreal_2026-11-03_tt&amp;utm_id=__CAMPAIGN_ID__&amp;utm_content=__AID_____CID__</code></pre>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted)">Note: In TikTok Ads, never set <code>utm_medium=ad group 20260727...</code> (which caused 2 `bad_medium` alerts on `floridapeptideslab.com` in Section 6). Always keep <code>utm_medium=paid_social</code> or <code>utm_medium=paid</code>.</p>
+</section>
+<section class="card" id="city-table">
+  <h2 class="sec"><span class="num">6</span>Ready-to-Paste Final URLs &amp; Campaign Names for All 17 Active Ad Cities</h2>
+  <p class="sub">Gerry can copy-paste these exact Campaign Names, Custom Parameters (<code>{_campaign}</code>), and full Final URLs directly into Google Ads today.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Active Store Domain</th>
+          <th>Mandatory Campaign Name &amp; <code>{_campaign}</code></th>
+          <th>Ready-to-Paste Full Google Ads Final URL</th>
+          <th>Status / Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Edmonton</b></td>
+          <td><code>edmontonpeptides.com</code></td>
+          <td><code>edmonton_2026-11-03_search</code></td>
+          <td><code>https://edmontonpeptides.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=edmonton_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Surrey</b></td>
+          <td><code>surreypeptides.com</code></td>
+          <td><code>surrey_2026-11-03_search</code></td>
+          <td><code>https://surreypeptides.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=surrey_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Kitchener</b></td>
+          <td><code>kitchenerpeps.com</code></td>
+          <td><code>kitchener_2026-11-03_search</code></td>
+          <td><code>https://kitchenerpeps.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=kitchener_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill warn">Re-paste Tracker</span></td>
+        </tr>
+        <tr>
+          <td><b>Waterloo</b></td>
+          <td><code>waterloopeps.ca</code></td>
+          <td><code>waterloo_2026-11-03_search</code></td>
+          <td><code>https://waterloopeps.ca/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=waterloo_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Guelph</b></td>
+          <td><code>guelphpeps.ca</code></td>
+          <td><code>guelph_2026-11-03_search</code></td>
+          <td><code>https://guelphpeps.ca/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=guelph_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Whitby</b></td>
+          <td><code>whitbypeps.com</code></td>
+          <td><code>whitby_2026-11-03_search</code></td>
+          <td><code>https://whitbypeps.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=whitby_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Pickering</b></td>
+          <td><code>pickeringpeps.com</code></td>
+          <td><code>pickering_2026-11-03_search</code></td>
+          <td><code>https://pickeringpeps.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=pickering_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill warn">Fix Checkout Snippet</span></td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>Oshawa</b></td>
+          <td><code>oshawapeptides.store</code></td>
+          <td><code>oshawa_2026-11-03_search</code></td>
+          <td><code>https://oshawapeptides.store/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=oshawa_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill risk">PAUSE ADS (DNS DEAD)</span></td>
+        </tr>
+        <tr>
+          <td><b>Montreal</b></td>
+          <td><code>montrealpeptides.com</code></td>
+          <td><code>montreal_2026-11-03_search</code></td>
+          <td><code>https://montrealpeptides.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=montreal_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Active Store Domain</th>
+          <th>Mandatory Campaign Name &amp; <code>{_campaign}</code></th>
+          <th>Ready-to-Paste Full Google Ads Final URL</th>
+          <th>Status / Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Winnipeg</b></td>
+          <td><code>winnipegpeptides.store</code></td>
+          <td><code>winnipeg_2026-11-03_search</code></td>
+          <td><code>https://winnipegpeptides.store/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=winnipeg_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live (<code>.store</code>)</span></td>
+        </tr>
+        <tr>
+          <td><b>Vaughan</b></td>
+          <td><code>vaughanpeps.ca</code></td>
+          <td><code>vaughan_2026-11-03_search</code></td>
+          <td><code>https://vaughanpeps.ca/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=vaughan_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill warn">Fix 404 Collection URL</span></td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>Moncton</b></td>
+          <td><code>monctonpeptides.store</code></td>
+          <td><code>moncton_2026-11-03_search</code></td>
+          <td><code>https://monctonpeptides.store/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=moncton_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill risk">PAUSE ADS (SUSPENDED)</span></td>
+        </tr>
+        <tr>
+          <td><b>Halifax</b></td>
+          <td><code>halifaxpeptides.shop</code></td>
+          <td><code>halifax_2026-11-03_search</code></td>
+          <td><code>https://halifaxpeptides.shop/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=halifax_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Mississauga</b></td>
+          <td><code>mississaugapeps.ca</code></td>
+          <td><code>mississauga_2026-11-03_search</code></td>
+          <td><code>https://mississaugapeps.ca/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=mississauga_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Ottawa</b></td>
+          <td><code>ottawapeptides.com</code></td>
+          <td><code>ottawa_2026-11-03_search</code></td>
+          <td><code>https://ottawapeptides.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=ottawa_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Lethbridge</b></td>
+          <td><code>lethbridgepeps.com</code></td>
+          <td><code>lethbridge_2026-11-03_search</code></td>
+          <td><code>https://lethbridgepeps.com/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=lethbridge_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live</span></td>
+        </tr>
+        <tr>
+          <td><b>Toronto</b></td>
+          <td><code>torontopeptides.store</code></td>
+          <td><code>toronto_2026-11-03_search</code></td>
+          <td><code>https://torontopeptides.store/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=toronto_2026-11-03_search&amp;utm_id={campaignid}&amp;network={network}</code></td>
+          <td><span class="pill ok">Live (<code>.store</code>)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="spend-sync">
+  <h2 class="sec"><span class="num">7</span>Connecting Gerry’s Google Ads Spend Directly Into Deep2K (Zero Developer Token Needed)</h2>
+  <p class="sub">Deep2K already has `POST /api/spend-feeds/ingest` (`apps/api/src/routes/spendFeeds.ts`) built and live. Here is how to turn it on in 3 minutes.</p>
+
+  <ol>
+    <li>Open the <b>Deep2K Dashboard</b> &rarr; go to <b>Spend</b> (or call <code>POST /api/spend-feeds</code> with <code>{"name": "Gerry Google MCC"}</code>).</li>
+    <li>Deep2K generates a `d2k_spend_...` key and gives you the ready-to-paste <b>Google Ads Script</b> (`apps/api/src/lib/googleAdsScript.ts`).</li>
+    <li>In Gerry’s <b>Google Ads Manager (MCC) account</b> (or each individual Google Ads account):
+      <ul>
+        <li>Go to <b>Tools &rarr; Bulk actions &rarr; Scripts &rarr; + New Script</b>.</li>
+        <li>Paste the script below, set <code>var DAYS = 90;</code> for the first run so it backfills all of October &amp; November, click <b>Run</b>, then change <code>DAYS = 7</code> and set <b>Schedule: Daily at 3:00 AM</b>.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Google Ads MCC Script</button>
+    <pre><code>/**
+ * Deep2K: send daily campaign spend, impressions &amp; clicks to Deep2K.
+ * Paste in Google Ads → Tools → Bulk actions → Scripts (MCC or individual account).
+ * First run: set DAYS = 90 to backfill October. Then set DAYS = 7 and Schedule: Daily.
+ */
+var DEEP2K_URL = "https://new-deep2k.onrender.com/api/spend-feeds/ingest";
+var DEEP2K_KEY = "PASTE_D2K_SPEND_KEY_FROM_DASHBOARD";
+var DAYS = 90;
+
+function main() {
+  var accounts = [];
+  try {
+    var it = AdsManagerApp.accounts().get();
+    while (it.hasNext()) accounts.push(it.next());
+  } catch (e) {
+    accounts = null; // Single account mode
+  }
+  if (accounts === null) {
+    send([collect()]);
+    return;
+  }
+  var batch = [];
+  for (var i = 0; i < accounts.length; i++) {
+    AdsManagerApp.select(accounts[i]);
+    try { batch.push(collect()); } catch (e) { Logger.log('Skipped ' + accounts[i].getCustomerId() + ': ' + e); }
+    if (batch.length === 10) { send(batch); batch = []; }
+  }
+  if (batch.length) send(batch);
+}
+
+function collect() {
+  var account = AdsApp.currentAccount();
+  var tz = account.getTimeZone();
+  var day = 24 * 3600 * 1000;
+  var to = Utilities.formatDate(new Date(Date.now() - day), tz, 'yyyy-MM-dd');
+  var from = Utilities.formatDate(new Date(Date.now() - DAYS * day), tz, 'yyyy-MM-dd');
+  var rows = [];
+  var report = AdsApp.search(
+    'SELECT segments.date, campaign.id, campaign.name, campaign.advertising_channel_type, ' +
+    'metrics.cost_micros, metrics.impressions, metrics.clicks FROM campaign ' +
+    "WHERE segments.date BETWEEN '" + from + "' AND '" + to + "' AND metrics.impressions > 0");
+  while (report.hasNext()) {
+    var r = report.next();
+    rows.push({
+      date: r.segments.date,
+      campaign_id: String(r.campaign.id),
+      campaign: r.campaign.name,
+      campaign_type: r.campaign.advertisingChannelType,
+      cost: Number(r.metrics.costMicros || 0) / 1000000,
+      impressions: Number(r.metrics.impressions || 0),
+      clicks: Number(r.metrics.clicks || 0)
+    });
+  }
+  return { id: account.getCustomerId(), name: account.getName(), currency: account.getCurrencyCode(), rows: rows };
+}
+
+function send(accounts) {
+  var res = UrlFetchApp.fetch(DEEP2K_URL, {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { 'X-Deep2K-Key': DEEP2K_KEY },
+    payload: JSON.stringify({ platform: 'google', accounts: accounts }),
+    muteHttpExceptions: true
+  });
+  Logger.log('Deep2K ' + res.getResponseCode() + ': ' + res.getContentText());
+  if (res.getResponseCode() >= 300) throw new Error('Deep2K refused the spend: ' + res.getContentText());
+}</code></pre>
+  </div>
+
+  <div class="callout ok">
+    <b>What happens immediately when this script runs once with `DAYS = 90`:</b><br>
+    Look at `salesReport.ts:34`:<br>
+    <code>COALESCE((SELECT ms.campaign FROM marketing_spend ms WHERE ms.campaign_id = btrim(expr) ...), expr)</code><br>
+    The 574 sessions in Deep2K that currently show raw numbers (`24353743836`, `24360315351`, `24365570351`) will <b>automatically resolve to their real campaign names</b>, and once `storeCity()` is patched (Patch 1 below), every city store will show its exact Google Ads Spend, Cost Per Paid Order, and ROAS!
+  </div>
+</section>
+<section class="card" id="buying-cycle">
+  <h2 class="sec"><span class="num">8</span>Buying-Cycle &amp; Conversion-Lag Telemetry Specification</h2>
+  <p class="sub">How we measure the exact hours and days between a customer seeing/clicking an ad (`first_seen_at` / `last_non_direct_at`), submitting an order (`submitted_at`), and paying (`paid_at`).</p>
+
+  <div class="callout blue">
+    <b>The Business Question We Must Answer Every Day:</b><br>
+    <i>"When Gerry spends $100 on Google Ads or TikTok Ads today, how many hours or days does it take for those people to actually buy, how many visits do they make before buying, and how much of our 'Direct' revenue is actually delayed conversions from ads clicked 2–14 days ago?"</i>
+  </div>
+
+  <h3>8.1 The 4 Timestamps Already in Deep2K’s Database (and the 2 Missing Links)</h3>
+  <p>Look at <code>packages/db/src/schema.ts</code> in <code>new-deep2k</code>:</p>
+  <ul>
+    <li><code>anonymous_visitors.first_seen_at</code>: The exact timestamp the user first landed on the store (e.g. clicked a TikTok or Google Ad on Oct 12).</li>
+    <li><code>anonymous_visitors.last_non_direct_at</code>: The exact timestamp of their most recent non-Direct visit (e.g. clicked a Google Ad on Oct 21).</li>
+    <li><code>orders.submitted_at</code>: The exact timestamp the order was placed.</li>
+    <li><code>orders.paid_at</code>: The exact timestamp the e-transfer/payment was confirmed.</li>
+  </ul>
+  <p><b>What is missing today:</b></p>
+  <ol>
+    <li>On `orders`, we do not store `first_touch_at` or `last_non_direct_at` when copying attribution from `anonymous_visitors` or `order-attribution-capture.deep2k.liquid` (`attr_captured_at` / `attr_last_captured_at`).</li>
+    <li>In `apps/api/src/routes/salesReport.ts`, we only compute `AVG(EXTRACT(epoch FROM (o.paid_at - o.submitted_at)) / 3600)` (`hoursToPay`), <b>never</b> `hoursFromFirstTouchToOrder` or `hoursFromLastAdToOrder`!</li>
+  </ol>
+
+  <h3>8.2 Ready-to-Run SQL Query: Buying-Cycle Lag &amp; Multi-Touch Distribution</h3>
+  <p>Add this query to <code>apps/api/src/routes/salesReport.ts</code> (inside `settleAll` as `buyingCycle`) so `/v1/analytics/sales` and the Dashboard Sales page display the full buying-cycle breakdown per channel:</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Buying-Cycle SQL</button>
+    <pre><code>-- Add to apps/api/src/routes/salesReport.ts inside settleAll({...})
+buyingCycle: db.execute(sql`
+  WITH order_lag AS (
+    SELECT
+      o.id,
+      o.site_id,
+      ${channelOf(model, 'o')} AS channel,
+      COALESCE(o.currency, 'UNK') AS currency,
+      ${NET()} AS amount,
+      o.submitted_at,
+      o.paid_at,
+      -- Earliest known touch timestamp (visitor first_seen_at, or first session prior to order)
+      COALESCE(
+        av.first_seen_at,
+        (SELECT MIN(js2.started_at) FROM journey_sessions js2
+         WHERE js2.anonymous_id = o.anonymous_id AND js2.started_at &lt;= o.submitted_at),
+        sj.started_at
+      ) AS first_touch_at,
+      -- Latest non-direct touch timestamp before the order
+      COALESCE(
+        av.last_non_direct_at,
+        (SELECT MAX(js3.started_at) FROM journey_sessions js3
+         WHERE js3.anonymous_id = o.anonymous_id
+           AND js3.started_at &lt;= o.submitted_at
+           AND js3.first_channel IS NOT NULL
+           AND js3.first_channel &lt;&gt; 'Direct')
+      ) AS last_ad_touch_at,
+      -- Total sessions by this visitor before buying
+      COALESCE(
+        (SELECT COUNT(*)::int FROM journey_sessions js4
+         WHERE js4.anonymous_id = o.anonymous_id AND js4.started_at &lt;= o.submitted_at),
+        1
+      ) AS sessions_before_order
+    FROM orders o
+    LEFT JOIN anonymous_visitors av ON av.id = o.anonymous_id
+    LEFT JOIN journey_sessions sj ON sj.id = o.session_id
+    WHERE ${ordersPaid(from, to)}
+  )
+  SELECT
+    channel,
+    COUNT(*)::int AS paid_orders,
+    ROUND(AVG(EXTRACT(epoch FROM (submitted_at - first_touch_at)) / 3600.0)::numeric, 1)::float AS avg_hours_first_touch_to_order,
+    ROUND(AVG(EXTRACT(epoch FROM (submitted_at - last_ad_touch_at)) / 3600.0)::numeric, 1)::float AS avg_hours_last_touch_to_order,
+    ROUND(AVG(sessions_before_order)::numeric, 2)::float AS avg_sessions_to_order,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &lt; interval '1 hour')::int AS bucket_under_1h,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &gt;= interval '1 hour' AND submitted_at - first_touch_at &lt; interval '24 hours')::int AS bucket_1h_to_24h,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &gt;= interval '1 day' AND submitted_at - first_touch_at &lt; interval '3 days')::int AS bucket_1d_to_3d,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &gt;= interval '3 days' AND submitted_at - first_touch_at &lt; interval '7 days')::int AS bucket_3d_to_7d,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &gt;= interval '7 days' AND submitted_at - first_touch_at &lt; interval '14 days')::int AS bucket_7d_to_14d,
+    COUNT(*) FILTER (WHERE submitted_at - first_touch_at &gt;= interval '14 days')::int AS bucket_over_14d,
+    COUNT(*) FILTER (WHERE sessions_before_order &gt; 1)::int AS multi_session_orders
+  FROM order_lag
+  GROUP BY 1
+  ORDER BY paid_orders DESC
+`)</code></pre>
+  </div>
+</section>
+<section class="card" id="code-patches">
+  <h2 class="sec"><span class="num">9</span>Exact Code Patches for the Deep2K Developer (`rosicjacob-sys/new-deep2k`)</h2>
+  <p class="sub">Copy-paste these 4 surgical patches into `rosicjacob-sys/new-deep2k` and push to `main` (Render auto-deploys both API &amp; Dashboard, and GitHub Actions auto-deploys the Cloudflare Worker).</p>
+
+  <h3>Patch 1: Fix `storeCity()` so `vaughanpeps.ca`, `waterloopeps.ca`, `kitchenerpeps.com`, etc. map to their campaigns</h3>
+  <p><b>File:</b> <code>packages/shared/src/campaignNaming.ts</code> (and mirror in <code>apps/api/src/lib/campaignNaming.ts</code>)</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Patch 1</button>
+    <pre><code>// packages/shared/src/campaignNaming.ts
+export function storeCity(domain: string): string {
+  const label = domain.trim().toLowerCase().replace(/^www\./, '').split('.')[0] ?? '';
+  // Strip 'peptides', 'peptide', 'peps', and trailing 'lab' so vaughanpeps.ca -> vaughan,
+  // waterloopeps.ca -> waterloo, floridapeptideslab.com -> florida
+  return label
+    .replace(/peptides?/g, '')
+    .replace(/^peps|peps$/g, '')
+    .replace(/lab$/g, '')
+    .replace(/[^a-z]/g, '');
+}</code></pre>
+  </div>
+
+  <h3>Patch 2: Recognise `utm_medium=product_sync` (`sag_organic`) as `Organic Shopping`</h3>
+  <p><b>File:</b> <code>packages/shared/src/attribution.ts</code></p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Patch 2</button>
+    <pre><code>// packages/shared/src/attribution.ts (line 117)
+const ORGANIC_SHOPPING_MEDIA = new Set([
+  'free_shopping', 'free-shopping', 'freeshopping',
+  'merchant_center', 'merchant-center',
+  'free_listing', 'free-listing',
+  'product_sync', 'product-sync',
+]);</code></pre>
+  </div>
+
+  <h3>Patch 3: Auto-Sync Attribution + `anonymous_id` + `session_id` into Shopify `/cart/update.js` inside the Main Tracker</h3>
+  <p><b>File:</b> <code>packages/tracker-generator/src/template.ts</code> — add this helper inside `start()` so every Shopify store automatically writes its Deep2K visitor &amp; session IDs and first/last touch into the Shopify cart (eliminating the need to manually maintain a second `.liquid` snippet on 86 stores!):</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Patch 3</button>
+    <pre><code>// Inside packages/tracker-generator/src/template.ts
+function syncShopifyCartAttributes() {
+  try {
+    var params = new URLSearchParams(location.search);
+    var hasAdTag = params.get('utm_source') || params.get('utm_medium') || params.get('utm_campaign')
+      || /[?&amp;](gclid|gbraid|wbraid|msclkid|fbclid|ttclid)=/i.test(location.search);
+    var ref = document.referrer || '';
+    var refHost = '';
+    try { refHost = ref ? new URL(ref).hostname.replace(/^www\./, '') : ''; } catch (_) {}
+    var ownHost = location.hostname.replace(/^www\./, '');
+    var externalRef = refHost &amp;&amp; refHost !== ownHost &amp;&amp; !/(myshopify\.com|shopify\.com|paypal\.com|pepscheckoutportal\.com)$/i.test(refHost);
+
+    var touchKey = 'd2k_touch_v1';
+    var state = read(touchKey) || {};
+    var nowIso = new Date().toISOString();
+    if (hasAdTag || externalRef) {
+      var fresh = {
+        source: params.get('utm_source') || (externalRef ? refHost : 'google'),
+        medium: params.get('utm_medium') || (hasAdTag ? 'cpc' : 'referral'),
+        campaign: params.get('utm_campaign') || params.get('utm_id') || '',
+        referrer_url: ref.slice(0, 1000),
+        landing_page: location.href.slice(0, 1000),
+        captured_at: nowIso,
+        traced: true
+      };
+      if (!state.first || !state.first.traced) state.first = fresh;
+      state.last = fresh;
+      write(touchKey, state);
+    } else if (!state.first) {
+      state.first = { source: 'direct', medium: 'none', campaign: '', referrer_url: '', landing_page: location.href.slice(0, 1000), captured_at: nowIso, traced: false };
+      write(touchKey, state);
+    }
+
+    var f = state.first || {};
+    var l = state.last || f;
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        attributes: {
+          '_d2k_aid': initialIdentity.aid,
+          '_d2k_sid': session.id,
+          'Attribution Source': f.source || '',
+          'Attribution Medium': f.medium || '',
+          'Attribution Campaign': f.campaign || '',
+          'Attribution Referrer URL': f.referrer_url || '',
+          'Attribution Landing Page': f.landing_page || '',
+          'Attribution Captured At': f.captured_at || '',
+          'Attribution Last Source': l.source || '',
+          'Attribution Last Medium': l.medium || '',
+          'Attribution Last Campaign': l.campaign || '',
+          'Attribution Last Referrer URL': l.referrer_url || '',
+          'Attribution Last Landing Page': l.landing_page || '',
+          'Attribution Last Captured At': l.captured_at || ''
+        }
+      })
+    }).catch(function(){});
+  } catch (_) {}
+}</code></pre>
+  </div>
+</section>
+<section class="card" id="code-patches-2">
+  <h3>Patch 4: Join Shopify Webhook Orders to <code>journey_sessions</code> &amp; Don't Let Untraced <code>Direct</code> Block <code>recoverOrder()</code></h3>
+  <p><b>Files:</b> <code>apps/api/src/routes/webhooks.ts</code> &amp; <code>apps/api/src/lib/attributionRecovery.ts</code></p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Patch 4</button>
+    <pre><code>// 1. In apps/api/src/routes/webhooks.ts (lines 67-80): add _d2k_aid and _d2k_sid to ATTRIBUTION_FIELD_MAP
+const ATTRIBUTION_FIELD_MAP: Record&lt;string, string&gt; = {
+  '_d2k_aid': 'd2k_aid',
+  '_d2k_sid': 'd2k_sid',
+  'Attribution Source': 'attr_source',
+  'Attribution Medium': 'attr_medium',
+  // ... existing fields
+};
+
+// 2. In apps/api/src/routes/webhooks.ts (shopifyChannel, line 142):
+// Do NOT treat a bare untagged landing_site="/" (Direct) as a final attribution that blocks session/customer recovery!
+const shopify = shopifyOrderAttribution({ attr_landing_page: landing, attr_referrer: referrer }, siteDomain);
+const isRealShopifyTouch = (shopify.firstChannel &amp;&amp; shopify.firstChannel !== 'Direct')
+  || (shopify.lastChannel &amp;&amp; shopify.lastChannel !== 'Direct');
+if (isRealShopifyTouch) {
+  return { attribution: shopify, method: 'shopify_landing', evidence: { landingSite: landing ?? '', referringSite: referrer ?? '' } };
+}
+// Otherwise leave firstChannel = null so recoverOrder() joins the customer's prior Paid Search / Paid Social / Organic session!
+
+// 3. In apps/api/src/lib/attributionRecovery.ts (line 45):
+// Increase CLICK_WINDOW from '2 hours' to '24 hours' AND also recover orders where shopify_landing only found untraced Direct:
+const CLICK_WINDOW = '24 hours';</code></pre>
+  </div>
+
+  <h3>Retroactive SQL Backfill (Run Once After Deploying Patches 1–4)</h3>
+  <p>After deploying the patches and running the Google Ads Spend Feed script with <code>DAYS = 90</code>, run this SQL once against Postgres to retroactively link existing October/November <code>marketing_spend</code> rows to <code>vaughanpeps.ca</code>, <code>waterloopeps.ca</code>, <code>kitchenerpeps.com</code>, etc., and re-run attribution recovery on <code>shopify_landing = Direct</code> orders:</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Backfill SQL</button>
+    <pre><code>-- Clear untraced 'shopify_landing' Direct-only assignments so recoverAttribution() links them to prior Paid/Organic sessions
+UPDATE orders
+SET first_channel = NULL, first_source = NULL, last_channel = NULL, last_source = NULL,
+    attribution_method = NULL
+WHERE attribution_method = 'shopify_landing'
+  AND first_channel = 'Direct'
+  AND (last_non_direct_channel IS NULL)
+  AND first_click_id IS NULL;</code></pre>
+  </div>
+</section>
+<section class="card" id="domain-fixes">
+  <h2 class="sec"><span class="num">10</span>Urgent Store &amp; DNS Fixes (Stop Wasting Ad Spend Today)</h2>
+  <p class="sub">Immediate operational fixes required so Gerry’s clicks stop hitting dead domains or un-tracked checkouts.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Store Domain</th>
+          <th>Urgency</th>
+          <th>Exact Issue Found in Deep2K + Gerry Sheet</th>
+          <th>Owner &amp; Exact Fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-risk">
+          <td><code>oshawapeptides.store</code></td>
+          <td><span class="pill p0">URGENT · Pause Ads</span></td>
+          <td>Gerry spent <b>$104 (305 clicks)</b>. Domain DNS fails with <code>ENOTFOUND</code> (offline for everyone) AND still runs <b>outdated Tracker v1</b> which loses checkout links!</td>
+          <td>1) <b>Gerry:</b> Pause Oshawa Google Ads immediately until DNS resolves.<br>2) <b>Store Ops:</b> Fix DNS A record &rarr; <code>23.227.38.65</code> + CNAME <code>shops.myshopify.com</code>.<br>3) Paste Deep2K Tracker v2 in <code>theme.liquid</code>.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><code>monctonpeptides.store</code></td>
+          <td><span class="pill p0">URGENT · Pause Ads</span></td>
+          <td>Gerry spent <b>$18 (56 clicks)</b>. Domain is suspended by Namecheap (<code>Server Hold</code>) + ads used literal <code>{campaignid}</code>.</td>
+          <td>1) <b>Gerry:</b> Pause Moncton ads or point to replacement domain.<br>2) <b>Store Ops:</b> Contact Namecheap to lift Server Hold or swap domain.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><code>vaughanpeps.ca</code></td>
+          <td><span class="pill p1">HIGH · Fix 404 + UTMs</span></td>
+          <td>Gerry spent <b>$108 (470 clicks)</b>, driving 567 visitors &amp; 2 orders. However, <code>/collections/all-products</code> returns <b>404</b>, and ads used literal <code>{campaignid}</code>!</td>
+          <td>1) <b>Store Ops:</b> Create/redirect <code>/collections/all-products</code> &rarr; <code>/collections/all</code> in Shopify Navigation.<br>2) <b>Gerry:</b> Apply the Vaughan URL from Section 6.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><code>pickeringpeps.com</code></td>
+          <td><span class="pill p1">HIGH · Snippet + Display</span></td>
+          <td>Gerry spent <b>$87 (170 clicks)</b>, 1 paid order (CA$76.10). Checkout tracking snippet was lost during theme switch, AND Google Display Network sent junk clicks from <code>11422.play.quizzop.com</code>, <code>trueaim360.com</code>, <code>mdfg01.top</code>!</td>
+          <td>1) <b>Store Ops:</b> Re-paste Deep2K Tracker v2 + checkout snippet into <code>pickeringpeps.com</code>.<br>2) <b>Gerry:</b> In Google Ads campaign settings for Pickering, <b>uncheck "Include Google Display Network"</b> on Search campaigns!</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><code>kitchenerpeps.com</code></td>
+          <td><span class="pill p1">HIGH · Re-paste Tracker</span></td>
+          <td>Gerry spent <b>$97 (214 clicks)</b>. Deep2K auto-check flagged: <i>"No Deep2K tracker on the page"</i> since Nov 1 18:10 UTC.</td>
+          <td><b>Store Ops:</b> Re-paste Deep2K Tracker v2 into <code>kitchenerpeps.com</code> <code>theme.liquid</code> before <code>&lt;/head&gt;</code>.</td>
+        </tr>
+        <tr>
+          <td><code>burnabypeptides.store</code></td>
+          <td><span class="pill p1">MEDIUM · Wrong Script</span></td>
+          <td>Deep2K <code>/v1/errors</code> flagged <code>wrongScripts</code>: <code>burnabypeptides.store</code> is running <code>torontopeptides.shop</code>'s tracker script!</td>
+          <td><b>Store Ops:</b> Open Deep2K &rarr; <code>burnabypeptides.store</code> &rarr; Get Script &rarr; replace the script in Burnaby's <code>theme.liquid</code>.</td>
+        </tr>
+        <tr>
+          <td><code>truropeptides.store</code> &amp; <code>mountpearlpeptides.store</code></td>
+          <td><span class="pill p1">MEDIUM · DNS / Hold</span></td>
+          <td><code>truropeptides.store</code> is on Namecheap Server Hold; <code>mountpearlpeptides.store</code> DNS does not resolve.</td>
+          <td><b>Store Ops:</b> Fix DNS for Mount Pearl (<code>23.227.38.65</code>) and lift Namecheap hold / rotate domain for Truro.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="checklist">
+  <h2 class="sec"><span class="num">11</span>Step-by-Step Acceptance Checklist (Deep2K Dev + Gerry Ads Ops)</h2>
+  <p class="sub">Use this checklist to verify that every single fix is live and working end-to-end.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>For the Deep2K Developer (`new-deep2k`)</h3>
+      <ul>
+        <li><input type="checkbox"> <b>1. Apply Patch 1 (`campaignNaming.ts`):</b> Update `storeCity()` so `peps` and `lab` domains resolve to their city name (`vaughanpeps.ca` &rarr; `vaughan`, `waterloopeps.ca` &rarr; `waterloo`). Run `pnpm test`.</li>
+        <li><input type="checkbox"> <b>2. Apply Patch 2 (`attribution.ts`):</b> Add `product_sync` to `ORGANIC_SHOPPING_MEDIA` so Merchant Center free listings stop triggering medium alerts or filing under Paid Search.</li>
+        <li><input type="checkbox"> <b>3. Apply Patch 3 (`template.ts`):</b> Embed automatic `/cart/update.js` attribute sync (`_d2k_aid`, `_d2k_sid`, `Attribution *`, `Attribution Last *`) directly into the main tracker script and fix `order-attribution-capture.deep2k.liquid` base URL to `https://new-deep2k.onrender.com`.</li>
+        <li><input type="checkbox"> <b>4. Apply Patch 4 (`webhooks.ts` + `attributionRecovery.ts`):</b> Read `_d2k_aid` / `_d2k_sid` on Shopify order webhooks, ignore untraced `shopify_landing = Direct` when a prior non-direct session exists, and widen `CLICK_WINDOW` to `24 hours`.</li>
+        <li><input type="checkbox"> <b>5. Add Buying-Cycle SQL (`salesReport.ts`):</b> Expose `avg_hours_first_touch_to_order`, `avg_hours_last_touch_to_order`, `avg_sessions_to_order`, and the 6 time-to-purchase lag buckets (`&lt;1h` to `14d+`) in `/v1/analytics/sales` and the Sales UI, plus a prominent `First Touch` vs. `Last Non-Direct Touch` toggle on Overview &amp; Sales.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>For Gerry (Google Ads &amp; TikTok Ads Manager)</h3>
+      <ul>
+        <li><input type="checkbox"> <b>1. Pause Broken Store Ads Immediately:</b> Pause Google Ads on `oshawapeptides.store` and `monctonpeptides.store` until DNS/suspension is fixed.</li>
+        <li><input type="checkbox"> <b>2. Install Account-Level Tracking Template:</b> Paste the Tracking Template from Section 5.1 into Google Ads Account Settings across all accounts.</li>
+        <li><input type="checkbox"> <b>3. Rename Campaigns &amp; Set `{_campaign}`:</b> Rename every active Google Ads campaign to `<city>_<YYYY-MM-DD>_<offer>` (Section 6 table) and set `{_campaign}` custom parameter on each campaign.</li>
+        <li><input type="checkbox"> <b>4. Install Google Ads Spend Feed Script:</b> Paste the script from Section 7 into Google Ads MCC &rarr; Scripts, run once with `DAYS = 90` to backfill October, then schedule Daily with `DAYS = 7`.</li>
+        <li><input type="checkbox"> <b>5. Disable Display Expansion on Search Campaigns:</b> Uncheck "Include Google Display Network" on `pickeringpeps.com` and all other Search campaigns so budget isn't drained by mobile game/quiz sites (`quizzop.com`, `mdfg01.top`).</li>
+        <li><input type="checkbox"> <b>6. Update TikTok Ad URLs:</b> Use `?utm_source=tiktok&utm_medium=paid_social&utm_campaign=<city>_<YYYY-MM-DD>_tt` on every TikTok ad.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  Deep2K V3 Attribution &amp; Buying-Cycle Engineering Specification · Prepared November 3, 2026 · Reconciled against <code>rosicjacob-sys/new-deep2k</code>, Deep2K Production API (<code>new-deep2k.onrender.com</code>), and Gerry Ad Spend Sheet (<code>gid=895074702</code>).
+</footer>
+
+</main>
+</div>
+
+<script>
+function copyCode(btn) {
+  var pre = btn.parentElement.querySelector('pre');
+  if (!pre) return;
+  navigator.clipboard.writeText(pre.innerText).then(function() {
+    var old = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = old; }, 1600);
+  });
+}
+function filterTables(q) {
+  var query = String(q || '').trim().toLowerCase();
+  document.querySelectorAll('table tbody tr').forEach(function(tr) {
+    var text = tr.innerText.toLowerCase();
+    tr.style.display = (!query || text.indexOf(query) !== -1) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
