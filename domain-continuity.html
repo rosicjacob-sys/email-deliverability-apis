@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Deliverable 1 · Zero-Data-Loss Domain Migration, Aliasing &amp; Merge Engineering Spec (2026-11)</title>
+<style>
+:root{--ink:#0f172a;--ink2:#334155;--muted:#64748b;--line:#e2e8f0;--bg:#f8fafc;--card:#fff;--acc:#0f766e;--acc2:#115e59;--accS:#f0fdfa;--accB:#99f6e4;--warn:#b45309;--warnS:#fffbeb;--warnB:#fde68a;--risk:#b91c1c;--riskS:#fef2f2;--riskB:#fecaca;--ok:#15803d;--okS:#f0fdf4;--okB:#bbf7d0;--blue:#1d4ed8;--blueS:#eff6ff;--blueB:#bfdbfe;--code:#0f172a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.58;-webkit-font-smoothing:antialiased}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(15,23,42,.96);backdrop-filter:blur(8px);color:#fff;border-bottom:1px solid #1e293b;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.topbar-badge{background:#14b8a6;color:#042f2e;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;text-transform:uppercase}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.topbar-input{background:#1e293b;border:1px solid #334155;color:#f8fafc;padding:6px 12px;border-radius:7px;font-size:12.5px;width:270px}
+.btn{background:#0f766e;color:#fff;border:1px solid #14b8a6;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:#115e59}
+.btn.secondary{background:#1e293b;border-color:#475569;color:#e2e8f0}
+.wrap{display:flex;max-width:1440px;margin:0 auto;gap:24px;padding:24px;align-items:flex-start}
+nav.toc{position:sticky;top:68px;width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 12px;max-height:calc(100vh - 88px);overflow:auto}
+nav.toc h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:8px 8px 6px;font-weight:700}
+nav.toc a{display:block;padding:6px 9px;font-size:12.5px;color:var(--ink2);text-decoration:none;border-radius:6px;line-height:1.35;margin-bottom:2px}
+nav.toc a:hover{background:var(--accS);color:var(--acc2);font-weight:600}
+nav.toc .toc-divider{height:1px;background:var(--line);margin:10px 6px}
+main{flex:1;min-width:0}
+header.hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 60%,#0f766e 100%);color:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
+header.hero .eyebrow{display:inline-block;background:rgba(20,184,166,.2);border:1px solid rgba(94,234,212,.4);color:#99f6e4;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:999px;margin-bottom:12px}
+header.hero h1{font-size:25px;line-height:1.25;margin-bottom:10px;font-weight:800}
+header.hero p{opacity:.94;max-width:980px;font-size:14.2px;line-height:1.6}
+.meta-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15);font-size:12.5px;opacity:.92}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:22px}
+.kpi-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi-card .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.kpi-card .val{font-size:22px;font-weight:800;color:var(--ink);margin:4px 0 2px}
+.kpi-card .val.risk{color:var(--risk)}.kpi-card .val.warn{color:var(--warn)}.kpi-card .val.ok{color:var(--ok)}
+.kpi-card .note{font-size:11.5px;color:var(--muted);line-height:1.35}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:22px}
+h2.sec{font-size:19.5px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:10px;font-weight:800}
+h2.sec .num{background:var(--acc);color:#fff;border-radius:8px;font-size:12.5px;padding:3px 9px;flex-shrink:0;font-weight:700}
+.sub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+h3{font-size:15.5px;margin:22px 0 8px;color:var(--acc2);font-weight:700}
+h4{font-size:13.5px;margin:14px 0 6px;color:var(--ink);font-weight:700}
+p,li{font-size:13.8px;color:var(--ink2)}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin-bottom:6px}
+b,strong{color:var(--ink)}
+.table-wrap{width:100%;overflow-x:auto;margin:12px 0;border-radius:10px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:12.6px}
+th{background:#f1f5f9;text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:11.2px;text-transform:uppercase;letter-spacing:.04em;color:#475569;font-weight:700}
+th:last-child,td:last-child{border-right:none}
+td{padding:8px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#fafcfe}
+tr.highlight-risk td{background:#fff5f5}tr.highlight-ok td{background:#f0fdf4}tr.highlight-warn td{background:#fffbeb}
+.num-col{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+code,.mono{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:11.8px;background:#f1f5f9;color:#0f172a;padding:2px 6px;border-radius:5px;border:1px solid #e2e8f0}
+.code-block{position:relative;margin:10px 0 16px}
+pre{background:var(--code);color:#e2e8f0;padding:16px 18px;border-radius:10px;overflow:auto;font-size:12px;line-height:1.55;border:1px solid #1e293b}
+pre code{background:none;color:inherit;padding:0;border:none;font-size:inherit}
+.copy-btn{position:absolute;top:8px;right:8px;background:#1e293b;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer}
+.copy-btn:hover{background:#334155;color:#fff}
+.callout{border-left:4px solid var(--acc);background:var(--accS);border-top:1px solid var(--accB);border-right:1px solid var(--accB);border-bottom:1px solid var(--accB);border-radius:0 10px 10px 0;padding:13px 16px;margin:12px 0;font-size:13.5px}
+.callout.warn{border-color:var(--warnB);border-left-color:var(--warn);background:var(--warnS)}
+.callout.risk{border-color:var(--riskB);border-left-color:var(--risk);background:var(--riskS)}
+.callout.ok{border-color:var(--okB);border-left-color:var(--ok);background:var(--okS)}
+.callout.blue{border-color:var(--blueB);border-left-color:var(--blue);background:var(--blueS)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.pill.p0,.pill.risk{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.pill.p1,.pill.warn{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.pill.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.pill.info{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+footer.colophon{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 36px}
+@media(max-width:1024px){.wrap{flex-direction:column}nav.toc{position:static;width:100%;max-height:none}.two-col{grid-template-columns:1fr}}
+@media print{.topbar,nav.toc,.copy-btn{display:none!important}section.card{break-inside:avoid;box-shadow:none}body{background:#fff}.wrap{padding:0;max-width:100%}}
+
+/* High-contrast fix for top hero box */
+header.hero, header.hero h1, header.hero b, header.hero strong { color: #ffffff !important; }
+header.hero p, header.hero li, header.hero .meta-row, header.hero .meta-row span { color: #f8fafc !important; opacity: 1 !important; }
+header.hero code, header.hero .mono { background: rgba(15, 23, 42, 0.6) !important; color: #99f6e4 !important; border: 1px solid rgba(153, 246, 228, 0.45) !important; font-weight: 600; }
+.topbar a.btn.secondary { color: #f8fafc !important; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-brand">
+    <span class="topbar-badge">Deliverable 1 of 3 · Deep2K Domain Continuity</span>
+    <span>Zero-Data-Loss Domain Migration, Aliasing &amp; Merge Engineering Spec</span>
+  </div>
+  <div class="topbar-actions">
+    <a href="index.html" class="btn secondary">🤖 Grok Bot Hub</a>
+    <a href="deep2k-audit.html" class="btn secondary">📊 Main Audit</a>
+    <a href="domain-continuity.html" class="btn secondary" style="background:#0f766e;border-color:#14b8a6;color:#fff;font-weight:800;">🔗 1. Domain Continuity</a>
+    <a href="seo-oldpc-plan.html" class="btn secondary">🚀 2. OldPC SEO Plan</a>
+    <a href="utm-city-bible.html" class="btn secondary">🎯 3. 10-UTM Bible</a>
+    <a href="netgrid-seo-deep-dive.html" class="btn secondary">🔍 4. Netgrid Deep-Dive</a>
+    <a href="deep2k-90day-audit.html" class="btn secondary">🕵️ 5. Deep2K 90-Day</a>
+    <a href="email-deliverability-apis.html" class="btn secondary">📧 6. Cold Email APIs</a>
+    <input type="text" class="topbar-input" placeholder="Filter any table..." oninput="filterTables(this.value)">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc">
+  <h2>Deliverable 1 · Domain Continuity</h2>
+  <a href="#root-cause">1 · Why Data Was Destroyed (<code>sites.ts:177</code>)</a>
+  <a href="#affected-stores">2 · All 32 Rotated PC Stores to Merge</a>
+  <a href="#schema-fix">3 · Database Migration (<code>site_domain_aliases</code>)</a>
+  <a href="#api-endpoints">4 · <code>rotate-domain</code> &amp; <code>merge-into</code> Endpoints</a>
+  <a href="#worker-kv">5 · Cloudflare Worker &amp; Handoff Continuity</a>
+  <a href="#sql-rescue">6 · Retroactive SQL Rescue Script</a>
+  <a href="#sop">7 · Mandatory 60-Second Domain Swap SOP</a>
+    <div class="toc-divider"></div>
+  <h2>All 7 Pages &amp; Hub</h2>
+  <a href="index.html">&rarr; 🤖 Grok Bot OpenRouter Hub</a>
+  <a href="deep2k-audit.html">&rarr; 📊 Main Forensic Attribution Spec</a>
+  <a href="domain-continuity.html" style="background:var(--accS);color:var(--acc2);font-weight:700;">&rarr; 🔗 Page 1: Zero-Data-Loss Domains</a>
+  <a href="seo-oldpc-plan.html">&rarr; 🚀 Page 2: OldPC SEO &amp; 8-Post Plan</a>
+  <a href="utm-city-bible.html">&rarr; 🎯 Page 3: 10-UTM City Bible (GAds+TT)</a>
+  <a href="netgrid-seo-deep-dive.html">&rarr; 🔍 Page 4: Netgrid SEO Deep-Dive</a>
+  <a href="deep2k-90day-audit.html">&rarr; 🕵️ Page 5: Deep2K 90-Day Trust Audit</a>
+  <a href="email-deliverability-apis.html">&rarr; 📧 Page 6: Cold Email &amp; Deliverability APIs</a>
+</nav>
+
+<main>
+<header class="hero">
+  <span class="eyebrow">Critical Engineering Fix · For Deep2K Developer &amp; Junard</span>
+  <h1>How Domain Swaps Destroyed Store History in Deep2K — And the Permanent "Same Store UUID + Domain Alias" Architecture</h1>
+  <p>
+    Whenever a <code>.ca</code> or <code>.shop</code> domain was suspended or rotated to <code>.store</code> / <code>.com</code> (32 times in October across Toronto, Winnipeg, Calgary, Vancouver, Steinbach, Hamilton, etc.), the team created a <b>brand-new site row</b> in Deep2K and deleted or abandoned the old row.
+    Look at <code>apps/api/src/routes/sites.ts</code> (lines 177–194): deleting a site row executes <code>DELETE FROM checkouts WHERE site_id = id</code>, <code>DELETE FROM events WHERE site_id = id</code>, cascades deletes across <code>journey_sessions</code> and <code>daily_stats</code>, and sets <code>UPDATE orders SET site_id = NULL, session_id = NULL, checkout_id = NULL</code> — <b>permanently orphaning every historical order into <code>(unattributed)</code> with no store!</b>
+  </p>
+  <div class="meta-row">
+    <span><b>Target Repo:</b> <code>rosicjacob-sys/new-deep2k</code></span>
+    <span><b>Exact Bug Location:</b> <code>apps/api/src/routes/sites.ts:27–33 &amp; 177–194</code></span>
+    <span><b>Stores Affected in Oct 2026:</b> 32 PC City Stores</span>
+  </div>
+</header>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="label">PC Stores That Changed Domain</div>
+    <div class="val risk">32 Stores</div>
+    <div class="note">Rotated <code>.ca</code> &rarr; <code>.shop</code> &rarr; <code>.store</code> or <code>.com</code> in October (Toronto, Winnipeg, Calgary, Vancouver, Hamilton, etc.)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">What <code>UpdateSiteBody</code> Allows Now</div>
+    <div class="val warn">No <code>domain</code>!</div>
+    <div class="note"><code>sites.ts:27</code> (<code>UpdateSiteBody</code>) blocks updating <code>domain</code> — forcing admins to create a new UUID and delete the old one!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">What <code>deleteSite()</code> Destroys</div>
+    <div class="val risk">100% History</div>
+    <div class="note">Deletes all <code>events</code>, <code>journey_sessions</code>, <code>checkouts</code>, <code>daily_stats</code>, and sets <code>orders.site_id = NULL</code>!</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">The Permanent Solution</div>
+    <div class="val ok">1 Store = 1 UUID</div>
+    <div class="note">Keep the same <code>site_id</code> forever; store old domains in <code>site_domain_aliases</code> so old + new domains merge seamlessly.</div>
+  </div>
+</div>
+<section class="card" id="root-cause">
+  <h2 class="sec"><span class="num">1</span>The Exact Code in <code>new-deep2k</code> That Destroyed Domain History</h2>
+  <p class="sub">Look at <code>apps/api/src/routes/sites.ts</code> lines 27–33 and lines 177–194 in <code>rosicjacob-sys/new-deep2k</code>.</p>
+
+  <div class="two-col">
+    <div class="callout risk" style="margin:0">
+      <b>Bug #1: <code>UpdateSiteBody</code> (<code>sites.ts:27–33</code>) Forbids Renaming a Store's Domain!</b>
+      <p style="margin-top:6px">Look at the schema for <code>PATCH /api/sites/:id</code>:</p>
+      <pre style="margin-top:8px"><code>const UpdateSiteBody = z.object({
+  endpointPath: z.string().startsWith('/').max(128).optional(),
+  categoryId: z.string().uuid().optional().nullable(),
+  shopifyDomain: z.string().max(253).optional().nullable(),
+  checkoutDomain: z.string().max(253).optional().nullable(),
+}).strict(); // &lt;-- 'domain' IS NOT ALLOWED!</code></pre>
+      <p style="margin-top:6px">Because <code>domain</code> is missing from <code>UpdateSiteBody</code>, when <code>torontopeptides.shop</code> changed to <code>torontopeptides.store</code>, the admin <b>could not rename the domain on the existing Toronto store</b>! Instead, they clicked <b>Add Site</b> (creating a brand-new <code>site_id</code> UUID with 0 history and a different tracker script!).</p>
+    </div>
+    <div class="callout risk" style="margin:0">
+      <b>Bug #2: <code>deleteSite()</code> (<code>sites.ts:177–194</code>) Wipes All Visits &amp; Orphans Orders!</b>
+      <p style="margin-top:6px">When someone deletes the old domain row (<code>DELETE /api/sites/:id</code>), here is what Deep2K runs:</p>
+      <pre style="margin-top:8px"><code>async function deleteSite(id: string) {
+  const kept = await tx.execute(sql`
+    UPDATE orders
+    SET site_id = NULL, checkout_id = NULL, session_id = NULL
+    WHERE site_id = ${id} ...`);
+  await tx.execute(sql`DELETE FROM checkouts WHERE site_id = ${id}`);
+  await tx.execute(sql`DELETE FROM events WHERE site_id = ${id}`);
+  const [row] = await tx.delete(sites).where(eq(sites.id, id));
+}</code></pre>
+      <p style="margin-top:6px">Deleting the old domain row <b>deletes every checkout, every session (<code>CASCADE</code>), every daily stat (<code>CASCADE</code>), and strips <code>site_id</code> and <code>session_id</code> off every paid order</b> — turning real orders into storeless <code>(unattributed)</code> rows!</p>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:14px">
+    <b>Bug #3: Even if you don't delete the old row, creating a second row splits the city into two stores and breaks the tracker!</b><br>
+    When <code>torontopeptides.store</code> is created as a new site row:
+    <ol style="margin-top:6px">
+      <li>All Oct 1–19 visitors (<code>Prev visitors</code> in Deep2K) sit on <code>torontopeptides.shop</code>, so <code>torontopeptides.store</code> shows <code>Prev visitors = 0</code> (see Section 4 of Deep2K!).</li>
+      <li>The Shopify theme (<code>xxx.myshopify.com</code>) still has the old <code>torontopeptides.shop</code> script until someone manually re-pastes the new script — AND while the old script runs on the new domain, <code>POST /api/sites/:id/handoff</code> (<code>integrations.ts:190</code>) <b>rejects every checkout handoff with <code>403 Storefront origin mismatch</code></b> because <code>originHost</code> (<code>torontopeptides.store</code>) doesn't match <code>site.domain</code> (<code>torontopeptides.shop</code>)!</li>
+    </ol>
+  </div>
+</section>
+<section class="card" id="affected-stores">
+  <h2 class="sec"><span class="num">2</span>All 32 PC Stores That Changed Domains (Need Immediate Aliasing / Merge)</h2>
+  <p class="sub">Every store below rotated from <code>.ca</code> or <code>.shop</code> to <code>.store</code> / <code>.com</code> / <code>.shop</code>. All historical domains for a city MUST map to ONE single <code>site_id</code> in Deep2K.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City Store</th>
+          <th>Current Active Domain</th>
+          <th>Previous / Legacy Domains (<code>site_domain_aliases</code>)</th>
+          <th>What Happened in Deep2K &amp; SEO</th>
+          <th>Action Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-warn">
+          <td><b>Toronto</b></td>
+          <td><code>torontopeptides.store</code></td>
+          <td><code>torontopeptides.ca</code>, <code>torontopeptides.shop</code></td>
+          <td>Gerry spent $362 (2,615 TikTok clicks) on <code>.shop</code>; <code>.store</code> shows <code>Prev visitors = 0</code> because history stayed on <code>.shop</code>. Also <code>burnabypeptides.store</code> has <code>torontopeptides.shop</code> script.</td>
+          <td>Merge <code>.ca</code> + <code>.shop</code> into <code>torontopeptides.store</code> UUID; add 301 redirect.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>Winnipeg</b></td>
+          <td><code>winnipegpeptides.store</code></td>
+          <td><code>winnipegpeptides.ca</code>, <code>winnipegpeptides.shop</code></td>
+          <td>Gerry spent $343 (4,315 TikTok clicks) + $37 Google Ads; <code>.store</code> shows <code>Prev visitors = 0</code>.</td>
+          <td>Merge <code>.ca</code> + <code>.shop</code> into <code>winnipegpeptides.store</code> UUID; add 301 redirect.</td>
+        </tr>
+        <tr>
+          <td><b>Ottawa &amp; Edmonton</b></td>
+          <td><code>ottawapeptides.com</code> / <code>edmontonpeptides.com</code></td>
+          <td><code>ottawapeptides.ca</code> / <code>edmontonpeptides.ca</code></td>
+          <td>Rotated <code>.ca</code> &rarr; <code>.com</code>. Netgrid &amp; older links still reference <code>.ca</code>.</td>
+          <td>Register <code>.ca</code> domains as aliases in <code>site_domain_aliases</code>.</td>
+        </tr>
+        <tr>
+          <td><b>Calgary &amp; Vancouver</b></td>
+          <td><code>calgarypeptides.store</code> / <code>vancouverpeptides.store</code></td>
+          <td><code>*.ca</code>, <code>*.shop</code></td>
+          <td>Both <code>.store</code> rows show <code>Prev visitors = 0</code> because <code>.shop</code> was a separate row.</td>
+          <td>Merge <code>.ca</code> + <code>.shop</code> into the active <code>.store</code> UUIDs.</td>
+        </tr>
+        <tr>
+          <td><b>Laval, Burnaby, Brandon</b></td>
+          <td><code>lavalpeptides.shop</code>, <code>burnabypeptides.store</code>, <code>brandonpeptides.shop</code></td>
+          <td><code>*.ca</code>, <code>burnabypeptides.shop</code>, <code>brandonpeptides.store</code></td>
+          <td><code>burnaby</code> and <code>brandon</code> show <code>Prev visitors = 0</code>; Burnaby is running Toronto's script.</td>
+          <td>Merge prior rows into active UUIDs &amp; paste Burnaby script.</td>
+        </tr>
+        <tr class="highlight-warn">
+          <td><b>Steinbach &amp; Saskatoon</b></td>
+          <td><code>steinbachpeptides.shop</code>, <code>saskatoonpeps.com</code></td>
+          <td><code>steinbachpeptides.com</code>, <code>saskatoonpeptides.ca/.store</code></td>
+          <td>Dead <code>steinbachpeptides.com</code> still outranks <code>.shop</code> on Google!</td>
+          <td>Merge into active UUIDs + 301 redirect <code>steinbachpeptides.com</code> &rarr; <code>.shop</code>.</td>
+        </tr>
+        <tr>
+          <td><b>Halifax, Fredericton, Summerside, Stratford, St. John's</b></td>
+          <td><code>*.shop</code> active domains</td>
+          <td>All 5 rotated from <code>*.ca</code></td>
+          <td><code>summersidepeptides.shop</code> shows <code>Prev visitors = 0</code>.</td>
+          <td>Merge all <code>*.ca</code> rows into the active <code>*.shop</code> UUIDs.</td>
+        </tr>
+        <tr class="highlight-risk">
+          <td><b>Moncton, Truro, Mount Pearl, Oshawa</b></td>
+          <td><code>*.store</code> (Suspended / DNS Dead)</td>
+          <td>Rotated from <code>*.ca</code></td>
+          <td>Currently offline/suspended. When replacement domains are bought, <b>use <code>rotate-domain</code> in-place!</b></td>
+          <td>Call <code>POST /api/sites/:id/rotate-domain</code> when new domains go live.</td>
+        </tr>
+        <tr>
+          <td><b>Hamilton, Oakville, Burlington, Brampton, Windsor, Kingston, Barrie, Ajax, Richmond Hill</b></td>
+          <td><code>.store</code> / <code>.shop</code> / <code>.com</code> active domains</td>
+          <td>All rotated from <code>*.ca</code> (and <code>.shop</code> &rarr; <code>.store</code>)</td>
+          <td><code>hamilton</code>, <code>oakville</code>, <code>brampton</code>, <code>windsor</code>, <code>kingston</code> all show <code>Prev visitors = 0</code> in Deep2K!</td>
+          <td>Merge all prior <code>.ca</code> / <code>.shop</code> rows into the active store UUIDs.</td>
+        </tr>
+        <tr>
+          <td><b>Chicago (US)</b></td>
+          <td><code>chicagopeps.com</code></td>
+          <td><code>peptideschicago.com</code></td>
+          <td>Both rows currently exist in Deep2K (<code>chicagopeps.com</code> note: <code>new domain for peptideschicago.com</code>).</td>
+          <td>Run <code>POST /api/sites/:newId/merge-from/:oldId</code> to combine <code>peptideschicago.com</code> into <code>chicagopeps.com</code>!</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card" id="schema-fix">
+  <h2 class="sec"><span class="num">3</span>Database Migration: <code>site_domain_aliases</code> (1 Store UUID = Unlimited Domains Over Time)</h2>
+  <p class="sub">Add this append-only SQL migration (<code>packages/db/migrations/0025_site_domain_aliases.sql</code>) so a store keeps its <code>site_id</code> forever even if its domain changes 10 times.</p>
+
+  <div class="callout ok">
+    <b>Core Architectural Rule:</b> A store in Deep2K represents a <b>Shopify Store / City Franchise (<code>site_id</code> UUID)</b>, NOT a temporary domain name!
+    When a domain changes (e.g., <code>oshawapeptides.ca</code> &rarr; <code>oshawapeptides.store</code> &rarr; <code>oshawapeps.com</code>):
+    <ol style="margin-top:6px">
+      <li>The store’s <code>sites.id</code> (UUID), <code>sites.secret</code>, and <code>sites.endpoint_path</code> <b>NEVER CHANGE</b>. That means <b>you don't even have to re-paste the tracker script in Shopify <code>theme.liquid</code> when you change domains on the same Shopify store!</b></li>
+      <li>The old domain is automatically saved into <code>site_domain_aliases (domain, site_id, retired_at)</code>.</li>
+      <li>Cloudflare KV keeps routing beacons from both the old domain AND the new domain to the exact same <code>site_id</code>, and <code>POST /api/sites/:id/handoff</code> accepts checkout handoffs from both the primary <code>sites.domain</code> AND any alias in <code>site_domain_aliases</code>!</li>
+    </ol>
+  </div>
+
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Migration 0025 SQL</button>
+    <pre><code>-- packages/db/migrations/0025_site_domain_aliases.sql
+CREATE TABLE IF NOT EXISTS site_domain_aliases (
+  domain text PRIMARY KEY,
+  site_id uuid NOT NULL REFERENCES sites(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  retired_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS site_domain_aliases_site_idx ON site_domain_aliases(site_id);
+
+-- Backfill existing primary domains into the alias lookup
+INSERT INTO site_domain_aliases (domain, site_id)
+SELECT lower(domain), id FROM sites
+ON CONFLICT (domain) DO NOTHING;</code></pre>
+  </div>
+</section>
+
+<section class="card" id="api-endpoints">
+  <h2 class="sec"><span class="num">4</span>Two New Endpoints in <code>apps/api/src/routes/sites.ts</code>: <code>rotate-domain</code> &amp; <code>merge-into</code></h2>
+  <p class="sub">Copy-paste these two endpoints into <code>apps/api/src/routes/sites.ts</code> (and disable hard deletion of history).</p>
+
+  <h3>4.1 <code>POST /api/sites/:id/rotate-domain</code> (In-Place Domain Swap With Zero Data Loss)</h3>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy rotate-domain Endpoint</button>
+    <pre><code>// Add to apps/api/src/routes/sites.ts
+router.post('/sites/:id/rotate-domain', async (req: Request, res: Response) => {
+  const id = req.params.id ?? '';
+  const newDomain = normalizeDomain(String(req.body?.newDomain ?? ''));
+  if (!newDomain) {
+    res.status(400).json({ error: 'Valid newDomain required (e.g. monctonpeps.com)' });
+    return;
+  }
+
+  const [site] = await db.select().from(sites).where(eq(sites.id, id));
+  if (!site) { res.status(404).json({ error: 'Site not found' }); return; }
+  const oldDomain = site.domain.toLowerCase();
+  if (oldDomain === newDomain) { res.json({ ok: true, site }); return; }
+
+  // If someone already created a separate new site row for newDomain,
+  // automatically merge it into this site row instead of failing with 409!
+  const [duplicateNewRow] = await db.select().from(sites).where(eq(sites.domain, newDomain));
+
+  await db.transaction(async tx => {
+    if (duplicateNewRow &amp;&amp; duplicateNewRow.id !== site.id) {
+      await mergeSiteData(tx, duplicateNewRow.id, site.id);
+      await tx.delete(sites).where(eq(sites.id, duplicateNewRow.id));
+    }
+    await tx.execute(sql`
+      INSERT INTO site_domain_aliases (domain, site_id, retired_at)
+      VALUES (${oldDomain}, ${site.id}, now()), (${newDomain}, ${site.id}, now())
+      ON CONFLICT (domain) DO UPDATE SET site_id = ${site.id}, retired_at = now()
+    `);
+    await tx.update(sites).set({
+      domain: newDomain,
+      firstPartySubdomain: site.firstPartySubdomain
+        ? `${site.firstPartySubdomain.split('.')[0]}.${newDomain}`
+        : null,
+    }).where(eq(sites.id, site.id));
+  });
+
+  const endpointForWorker = resolveEndpointPath(site.endpointPath, env.CF_WORKER_URL);
+  await pushSiteToKV(newDomain, { id: site.id, secret: site.secret, endpoint_path: endpointForWorker, backend_url: site.backendUrl }, null);
+  await pushSiteToKV(oldDomain, { id: site.id, secret: site.secret, endpoint_path: endpointForWorker, backend_url: site.backendUrl }, null);
+
+  invalidateSummaryCache();
+  res.json({ ok: true, siteId: site.id, oldDomain, newDomain, message: 'Domain rotated in-place with 100% history preserved.' });
+});</code></pre>
+  </div>
+  <h3>4.2 <code>mergeSiteData()</code> Helper &amp; <code>POST /api/sites/:targetId/merge-from/:sourceId</code></h3>
+  <p>For the 32 stores where a second site row was <i>already</i> created (<code>peptideschicago.com</code> + <code>chicagopeps.com</code>, <code>torontopeptides.shop</code> + <code>torontopeptides.store</code>, etc.), this transaction moves 100% of historical visits, sessions, checkouts, orders, leads, and ad spend from <code>sourceId</code> into <code>targetId</code> before removing the duplicate row:</p>
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy mergeSiteData Function</button>
+    <pre><code>// Add to apps/api/src/routes/sites.ts
+async function mergeSiteData(tx: Db, sourceId: string, targetId: string) {
+  if (sourceId === targetId) return;
+  const [src] = await tx.select().from(sites).where(eq(sites.id, sourceId));
+  if (src) {
+    await tx.execute(sql`
+      INSERT INTO site_domain_aliases (domain, site_id, retired_at)
+      VALUES (${src.domain.toLowerCase()}, ${targetId}, now())
+      ON CONFLICT (domain) DO UPDATE SET site_id = ${targetId}
+    `);
+  }
+  await tx.execute(sql`UPDATE events SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE journey_sessions SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE journey_events SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE checkouts SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE orders SET site_id = ${targetId}, updated_at = now() WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE leads SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE attributions SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE marketing_links SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`UPDATE marketing_spend SET site_id = ${targetId} WHERE site_id = ${sourceId}`);
+  await tx.execute(sql`
+    INSERT INTO daily_stats (site_id, date, pageviews, unique_visitors, countries, devices, top_paths, top_referrers, bounced_visitors)
+    SELECT ${targetId}, date, pageviews, unique_visitors, countries, devices, top_paths, top_referrers, bounced_visitors
+    FROM daily_stats WHERE site_id = ${sourceId}
+    ON CONFLICT (site_id, date) DO UPDATE SET
+      pageviews = daily_stats.pageviews + EXCLUDED.pageviews,
+      unique_visitors = daily_stats.unique_visitors + EXCLUDED.unique_visitors,
+      bounced_visitors = daily_stats.bounced_visitors + EXCLUDED.bounced_visitors
+  `);
+  await tx.execute(sql`DELETE FROM daily_stats WHERE site_id = ${sourceId}`);
+}</code></pre>
+  </div>
+</section>
+<section class="card" id="worker-kv">
+  <h2 class="sec"><span class="num">5</span>Patching Handoff &amp; Portal Lookup to Accept Domain Aliases</h2>
+  <p class="sub">Two small updates in <code>apps/api/src/routes/integrations.ts</code> so checkout handoffs and portal orders work across old and new domains.</p>
+
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy integrations.ts Alias Patch</button>
+    <pre><code>// 1. In apps/api/src/routes/integrations.ts: update portalStore() (line 53)
+async function portalStore(db: Db, event: { site_id?: string; store_domain?: string }): Promise&lt;{ id: string; domain: string } | null&gt; {
+  if (event.site_id) {
+    const site = await db.query.sites.findFirst({ where: eq(sites.id, event.site_id), columns: { id: true, domain: true } });
+    if (site) return site;
+  }
+  const host = storeHost(event.store_domain);
+  if (!host) return null;
+  const rows = (await db.execute(sql`
+    SELECT s.id, s.domain FROM sites s
+    LEFT JOIN site_domain_aliases a ON a.site_id = s.id
+    WHERE regexp_replace(lower(s.domain), '^www\\.', '') = ${host}
+       OR regexp_replace(lower(s.shopify_domain), '^www\\.', '') = ${host}
+       OR regexp_replace(lower(a.domain), '^www\\.', '') = ${host}
+    GROUP BY s.id, s.domain
+    LIMIT 2
+  `)).rows as { id: string; domain: string }[];
+  return rows.length === 1 ? rows[0]! : null;
+}
+
+// 2. In apps/api/src/routes/integrations.ts: update /sites/:id/handoff origin check (line 188)
+const aliasMatch = await db.execute(sql`
+  SELECT 1 FROM site_domain_aliases
+  WHERE site_id = ${site.id} AND regexp_replace(lower(domain), '^www\\.', '') = ${originHost.replace(/^www\./, '')}
+  LIMIT 1
+`);
+if (originHost.replace(/^www\./, '') !== allowedHost &amp;&amp; aliasMatch.rows.length === 0) {
+  reject(res, 'handoff', 403, 'Storefront origin mismatch', { site: site.domain, origin: originHost });
+  return;
+}</code></pre>
+  </div>
+</section>
+
+<section class="card" id="sql-rescue">
+  <h2 class="sec"><span class="num">6</span>Retroactive SQL Rescue Script: Re-Attach Orphaned Orders &amp; Merge City Duplicates</h2>
+  <p class="sub">Run this SQL script once on Deep2K's PostgreSQL database to recover orders that lost their <code>site_id</code> when old <code>.ca</code>/<code>.shop</code> rows were deleted.</p>
+
+  <div class="code-block">
+    <button class="copy-btn" onclick="copyCode(this)">Copy Retroactive SQL Rescue Script</button>
+    <pre><code>-- 1. Re-attach orphaned orders (where site_id was set to NULL by deleteSite)
+UPDATE orders o
+SET site_id = s.id, updated_at = now()
+FROM sites s
+WHERE o.site_id IS NULL
+  AND (
+    (o.external_order_id LIKE 'shopify:%' AND split_part(o.external_order_id, ':', 2) = lower(s.shopify_domain))
+    OR (o.landing_url IS NOT NULL AND lower(regexp_replace(o.landing_url, '^https?://(www\.)?([^/?#]+).*$', '\2')) = lower(s.domain))
+  );
+
+-- 2. Re-attach orphaned orders where landing_url had the old .ca or .shop domain of the same city!
+UPDATE orders o
+SET site_id = s.id, updated_at = now()
+FROM sites s
+WHERE o.site_id IS NULL
+  AND o.landing_url IS NOT NULL
+  AND regexp_replace(split_part(lower(regexp_replace(o.landing_url, '^https?://(www\.)?([^/?#]+).*$', '\2')), '.', 1), '(peptides?|peps|lab)$', '')
+    = regexp_replace(split_part(lower(s.domain), '.', 1), '(peptides?|peps|lab)$', '')
+  AND (SELECT COUNT(*) FROM sites s2
+       WHERE regexp_replace(split_part(lower(s2.domain), '.', 1), '(peptides?|peps|lab)$', '')
+           = regexp_replace(split_part(lower(s.domain), '.', 1), '(peptides?|peps|lab)$', '')) = 1;</code></pre>
+  </div>
+</section>
+<section class="card" id="sop">
+  <h2 class="sec"><span class="num">7</span>The New 60-Second SOP When Any Domain Changes (For Junard, Carl &amp; Store Ops)</h2>
+  <p class="sub">Follow these 4 rules every time a domain is rotated so zero visitors, bookmarks, or orders are ever lost again.</p>
+
+  <ol>
+    <li><b>NEVER click "Delete Site" or "Add Site" in Deep2K for an existing city store!</b> Instead, open the existing city store in Deep2K and click <b>Rotate Domain</b> (<code>POST /api/sites/:id/rotate-domain</code>), entering the new domain (e.g., <code>oshawapeps.com</code>).</li>
+    <li><b>Keep the Same Tracker Script on the Shopify Store:</b> Because <code>rotate-domain</code> keeps the exact same <code>site_id</code>, <code>secret</code>, and <code>endpoint_path</code>, the tracker script already inside <code>theme.liquid</code> on that Shopify store continues working immediately with zero gap!</li>
+    <li><b>Set a Cloudflare 301 Redirect on the Old Domain (Whenever Possible):</b> If the old domain is still in our Cloudflare account (not registry-suspended, e.g., <code>steinbachpeptides.com</code>, <code>peptideschicago.com</code>, <code>torontopeptides.ca</code>), add a Cloudflare Redirect Rule:
+      <code>https://old-domain.com/* &rarr; 301 Permanent Redirect &rarr; https://new-domain.com/$1 (Preserve Query String = ON)</code> so bookmarked repeat buyers AND Google/TikTok ad clicks with <code>?utm_...</code> or <code>?gclid=...</code> redirect with their tracking parameters intact!</li>
+    <li><b>Update Netgrid &amp; Gerry's Ad Sheet the Same Day:</b> Update Column A in the Master Sites Sheet (<code>1oCb9B-Hc-xTKojTCszKtILoTOXiQtbybuF48LqTt6Qc</code>) and update the blog's <code>domain</code> in Netgrid so SEO posts and Paid Ads never point to a retired domain.</li>
+  </ol>
+</section>
+
+<footer class="colophon">
+  Deliverable 1 of 3 · Deep2K Zero-Data-Loss Domain Migration &amp; Aliasing Spec · Prepared November 3, 2026
+</footer>
+</main>
+</div>
+
+<script>
+function copyCode(btn) {
+  var pre = btn.parentElement.querySelector('pre');
+  if (!pre) return;
+  navigator.clipboard.writeText(pre.innerText).then(function() {
+    var old = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = old; }, 1600);
+  });
+}
+function filterTables(q) {
+  var query = String(q || '').trim().toLowerCase();
+  document.querySelectorAll('table tbody tr').forEach(function(tr) {
+    var text = tr.innerText.toLowerCase();
+    tr.style.display = (!query || text.indexOf(query) !== -1) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
